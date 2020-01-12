@@ -1,0 +1,7 @@
+{
+  "pmBackend": {
+    "api": "https://projectmanager-stage.herokuapp.com",
+    "apiversion": "v1"
+  },
+  "CNAME": ""
+}
