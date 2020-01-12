@@ -20,8 +20,7 @@ const Events = () => {
   const { events, fetching } = useStoreState(state => state);
   console.log("<Events>", events);
 
-  const getEvents = useStoreActions(actions => actions.getEvents);
-  const submitEvents = useStoreActions(actions => actions.submitEvents);
+  const { getEvents, submitEvent } = useStoreActions(actions => actions);
 
   const getEventsPayload = `start=${start}&end=${end}`;
   const createEventPayload = {
@@ -46,7 +45,7 @@ const Events = () => {
   };
 
   const submitEventsCall = () => {
-    submitEvents(createEventPayload);
+    submitEvent(createEventPayload);
     setInitialTimeFrame();
   };
 
