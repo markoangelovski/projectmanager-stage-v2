@@ -1,31 +1,49 @@
 import React from "react";
-import { FaHome, FaProjectDiagram, FaTasks, FaCalendar } from "react-icons/fa";
+import { IconContext } from "react-icons";
+import {
+  FaHome,
+  FaProjectDiagram,
+  FaTasks,
+  FaCalendarAlt
+} from "react-icons/fa";
 import { Link } from "react-router-dom";
+
+import { Ul } from "./Nav.styles";
 
 function Nav() {
   return (
-    <nav>
-      <Link to="/">
-        <button type="button">
-          <FaHome />
-        </button>
-      </Link>
-      <Link to="/projects">
-        <button type="button">
-          <FaProjectDiagram />
-        </button>
-      </Link>
-      <Link to="/kanban">
-        <button type="submit">
-          <FaTasks />
-        </button>
-      </Link>
-      <Link to="/events">
-        <button>
-          <FaCalendar />
-        </button>
-      </Link>
-    </nav>
+    <IconContext.Provider
+      value={{
+        style: {
+          verticalAlign: "middle"
+        } /* , className: "global-class-name" */
+      }}
+    >
+      <nav>
+        <Ul>
+          <li>
+            <Link to="/">
+              <FaHome />
+            </Link>
+          </li>
+          <li>
+            <Link to="/projects">
+              <FaProjectDiagram />
+            </Link>
+          </li>
+          <li>
+            <Link to="/kanban">
+              <FaTasks />
+            </Link>
+          </li>
+          <li>
+            <Link to="/events">
+              <FaCalendarAlt />
+            </Link>
+          </li>
+        </Ul>
+      </nav>
+    </IconContext.Provider>
   );
 }
 

@@ -11,6 +11,7 @@ import Tasks from "./pages/Tasks/Tasks";
 import Task from "./pages/Task/Task";
 import Events from "./pages/Events/Events";
 
+import MainMenu from "./components/MainMenu/MainMenu";
 import Nav from "./components/Nav/Nav";
 import Login from "./components/Login/Login";
 
@@ -47,10 +48,10 @@ const App = () => {
   if (loggedInStatus === null) {
     return <div>Authenticating...</div>;
   }
-
   if (loggedInStatus) {
     return (
       <>
+        <MainMenu user={user}></MainMenu>
         <Nav />
         <Switch>
           <Route

@@ -11,6 +11,7 @@ const EventList = props => {
               <tr>
                 <th>Events:</th>
                 <th>{moment(day.date).format("MMMM Do YYYY")}</th>
+                <th>Total: {day.events.length}</th>
               </tr>
             </thead>
             {day.events.map(event => {
