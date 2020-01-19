@@ -1,7 +1,8 @@
 import React from "react";
 import { IconContext } from "react-icons";
 
-import HomeEvents from "../HomeEvents/HomeEvents";
+import HomeDays from "../HomeDays/HomeDays";
+import HomeClock from "../HomeClock/HomeClock";
 import HomeTasks from "../HomeTasks/HomeTasks";
 import HomeProjects from "../HomeProjects/HomeProjects";
 
@@ -19,9 +20,10 @@ const Body = props => {
       }}
     >
       <Boxes>
-        <HomeEvents />
-        <HomeTasks />
+        <HomeDays />
+        <HomeClock />
         <HomeProjects />
+        <HomeTasks />
       </Boxes>
     </IconContext.Provider>
   );

@@ -1,29 +1,68 @@
 import { action, thunk, createStore } from "easy-peasy";
+import moment from "moment";
 
 import { getProjects, setProjects } from "../utils/projects.actions";
-import { getTasks, setTasks } from "../utils/tasks.actions";
+import { getTasks, setTasks, setSelectedTask } from "../utils/tasks.actions";
 import {
-  getEvents,
-  setEvents,
-  submitEvent,
-  setEvent
+  setDayStart,
+  setDayEnd,
+  setEventTitle,
+  setEventDuration,
+  setDayRangeError,
+  getDays,
+  setDays,
+  submitDay,
+  setUpdatedDay,
+  getSingleDay,
+  setSingleDay,
+  setInitialDayValues
 } from "../utils/events.actions";
 
 const Store = createStore({
   projects: [],
   tasks: [],
-  events: [],
+  selectedTask: "",
+  dayStart: moment()
+    .subtract(1, "week")
+    .format("YYYY-MM-DD"),
+  dayEnd: moment().format("YYYY-MM-DD"),
+  eventTitle: "",
+  eventDuration: 0.25,
+  dayRangeError: false,
+  days: [],
+  singleDay: {},
   fetching: false,
-  // Thunks
+  // Project Thunks
   getProjects: thunk(actions => getProjects(actions)),
+  // Task Thunks
   getTasks: thunk(actions => getTasks(actions)),
-  getEvents: thunk((actions, payload) => getEvents(actions, payload)),
-  submitEvent: thunk((actions, payload) => submitEvent(actions, payload)),
-  // Actions
+  // Days Thunks
+  getDays: thunk((actions, payload) => getDays(actions, payload)),
+  submitDay: thunk((actions, payload) => submitDay(actions, payload)),
+  getSingleDay: thunk((actions, payload) => getSingleDay(actions, payload)),
+  // Project Actions
   setProjects: action((state, projects) => setProjects(state, projects)),
+  // Task Actions
   setTasks: action((state, tasks) => setTasks(state, tasks)),
-  setEvents: action((state, events) => setEvents(state, events)),
-  setEvent: action((state, event) => setEvent(state, event)),
+  setSelectedTask: action((state, selectedTask) =>
+    setSelectedTask(state, selectedTask)
+  ),
+  // Days Actions
+  setDayStart: action((state, dayStart) => setDayStart(state, dayStart)),
+  setDayEnd: action((state, dayEnd) => setDayEnd(state, dayEnd)),
+  setDayRangeError: action((state, dayRangeError) =>
+    setDayRangeError(state, dayRangeError)
+  ),
+  setEventTitle: action((state, eventTitle) =>
+    setEventTitle(state, eventTitle)
+  ),
+  setEventDuration: action((state, eventDuration) =>
+    setEventDuration(state, eventDuration)
+  ),
+  setDays: action((state, events) => setDays(state, events)),
+  setUpdatedDay: action((state, day) => setUpdatedDay(state, day)),
+  setSingleDay: action((state, singleDay) => setSingleDay(state, singleDay)),
+  setInitialDayValues: action(state => setInitialDayValues(state)),
   toggleFetching: action(state => {
     state.fetching = !state.fetching;
   })

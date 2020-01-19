@@ -16,4 +16,8 @@ const setTasks = (state, tasks) => {
   state.tasks = tasks;
 };
 
-export { getTasks, setTasks };
+const setSelectedTask = (state, selectedTask) => {
+  state.selectedTask = selectedTask;
+};
+
+export { getTasks, setTasks, setSelectedTask };

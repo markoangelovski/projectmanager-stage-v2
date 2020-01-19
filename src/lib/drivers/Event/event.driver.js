@@ -4,7 +4,7 @@ const {
 
 const createEventCall = payload => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/events`, {
+    fetch(`${api}/${apiversion}/days`, {
       method: "POST",
       headers: {
         "Content-type": "application/json"
@@ -19,9 +19,21 @@ const createEventCall = payload => {
   });
 };
 
-const getEventsCall = payload => {
+const getDaysCall = payload => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/events?${payload}`, {
+    fetch(`${api}/${apiversion}/days?${payload}`, {
+      // Credentials: include for sending the cookie from the browser to the backend
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+};
+
+const getSingleDayCall = payload => {
+  return new Promise((resolve, reject) => {
+    fetch(`${api}/${apiversion}/days/single?start=${payload}`, {
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
     })
@@ -39,7 +51,7 @@ const updateEventCall = (eventId, attributeKey, attributeValue) => {
     }
   ];
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/events/${eventId}`, {
+    fetch(`${api}/${apiversion}/days/${eventId}`, {
       method: "PATCH",
       headers: {
         "Content-type": "application/json"
@@ -56,7 +68,7 @@ const updateEventCall = (eventId, attributeKey, attributeValue) => {
 
 const deleteEventCall = start => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/events/${start}`, {
+    fetch(`${api}/${apiversion}/days/${start}`, {
       method: "DELETE",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
@@ -67,4 +79,10 @@ const deleteEventCall = start => {
   });
 };
 
-export { createEventCall, getEventsCall, updateEventCall, deleteEventCall };
+export {
+  createEventCall,
+  getDaysCall,
+  getSingleDayCall,
+  updateEventCall,
+  deleteEventCall
+};

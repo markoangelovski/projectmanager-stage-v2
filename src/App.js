@@ -4,15 +4,21 @@ import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import { StoreProvider } from "easy-peasy";
 
+// Pages
 import Home from "./pages/Home/Home";
 import Projects from "./pages/Projects/Projects";
 import Project from "./pages/Project/Project";
 import Tasks from "./pages/Tasks/Tasks";
 import Task from "./pages/Task/Task";
-import Events from "./pages/Events/Events";
+import Days from "./pages/Days/Days";
+import Day from "./pages/Day/Day";
+import Clock from "./pages/Clock/Clock";
+//import Error404 from "./pages/Error/Error"; Not working
 
+// Components
 import MainMenu from "./components/MainMenu/MainMenu";
 import Nav from "./components/Nav/Nav";
+import FloatingClock from "./components/FloatingClock/FloatingClock";
 import Login from "./components/Login/Login";
 
 import { checkAuthCall } from "./lib/drivers/User/user.driver";
@@ -69,9 +75,13 @@ const App = () => {
               component={Task}
             />
             <Route exact path="/kanban" component={Tasks} />
-            <Route exact path="/events" component={Events} />
+            <Route exact path="/days" component={Days} />
+            <Route exact path="/days/:dayId" component={Day} />
+            <Route exact path="/clock" component={Clock} />
           </StoreProvider>
+          {/* <Route component={Error404} /> Not working */}
         </Switch>
+        <FloatingClock />
       </>
     );
   }

@@ -2,9 +2,9 @@ import React from "react";
 import { FaCalendarAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
-const HomeEvents = props => {
+const HomeDays = () => {
   return (
-    <Link to="/events">
+    <Link to="/days">
       <div className="box">
         <FaCalendarAlt />
       </div>
@@ -12,4 +12,4 @@ const HomeEvents = props => {
   );
 };
 
-export default HomeEvents;
+export default HomeDays;

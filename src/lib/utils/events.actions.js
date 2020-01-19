@@ -1,10 +1,36 @@
-import { getEventsCall, createEventCall } from "../drivers/Event/event.driver";
+import moment from "moment";
 
-const getEvents = async (actions, payload) => {
+import {
+  getDaysCall,
+  getSingleDayCall,
+  createEventCall
+} from "../drivers/Event/event.driver";
+
+const setDayStart = (state, dayStart) => {
+  state.dayStart = dayStart;
+};
+
+const setDayEnd = (state, dayEnd) => {
+  state.dayEnd = dayEnd;
+};
+
+const setEventTitle = (state, eventTitle) => {
+  state.eventTitle = eventTitle;
+};
+
+const setEventDuration = (state, eventDuration) => {
+  state.eventDuration = eventDuration;
+};
+
+const setDayRangeError = (state, dayRangeError) => {
+  state.dayRangeError = dayRangeError;
+};
+
+const getDays = async (actions, payload) => {
   actions.toggleFetching();
   try {
-    const events = await getEventsCall(payload);
-    if (!events.error) actions.setEvents(events.days);
+    const res = await getDaysCall(payload);
+    if (!res.error) actions.setDays(res.days);
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -12,16 +38,15 @@ const getEvents = async (actions, payload) => {
   }
 };
 
-const setEvents = (state, events) => {
-  state.events = events;
+const setDays = (state, days) => {
+  state.days = days;
 };
 
-const submitEvent = async (actions, payload) => {
+const getSingleDay = async (actions, payload) => {
   actions.toggleFetching();
   try {
-    const day = await createEventCall(payload);
-    console.log("day", day);
-    if (!day.error) actions.setEvent(day.event);
+    const res = await getSingleDayCall(payload);
+    if (!res.error) actions.setSingleDay(res.day);
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -29,15 +54,57 @@ const submitEvent = async (actions, payload) => {
   }
 };
 
-const setEvent = (state, event) => {
-  const updatedEvent = state.events.find(
-    oldEvent => oldEvent._id === event._id
-  );
-  if (!updatedEvent) {
-    state.events = state.events.push(event);
+const setSingleDay = (state, singleDay) => {
+  state.singleDay = singleDay;
+};
+
+const submitDay = async (actions, payload) => {
+  actions.toggleFetching();
+  try {
+    const res = await createEventCall(payload);
+    if (!res.error) actions.setUpdatedDay(res.day);
+    actions.toggleFetching();
+  } catch (error) {
+    actions.toggleFetching();
+    console.warn(error);
+  }
+};
+
+const setUpdatedDay = (state, day) => {
+  const days = [...state.days];
+  const index = days.findIndex(oldDay => oldDay._id === day._id);
+  if (index > -1) {
+    days.splice(index, 1);
+    days.push(day);
+    days.sort((a, b) => b.date - a.date);
+    state.days = days;
   } else {
-    updatedEvent.events = event.events;
+    days.push(day);
+    days.sort((a, b) => b.date - a.date);
+    state.days = days;
   }
 };
 
-export { getEvents, setEvents, submitEvent, setEvent };
+const setInitialDayValues = state => {
+  state.eventTitle = "";
+  state.eventDuration = 0.25;
+  state.dayStart = moment()
+    .subtract(1, "week")
+    .format("YYYY-MM-DD");
+  state.dayEnd = moment().format("YYYY-MM-DD");
+};
+
+export {
+  setDayStart,
+  setDayEnd,
+  setEventTitle,
+  setEventDuration,
+  setDayRangeError,
+  getDays,
+  setDays,
+  getSingleDay,
+  setSingleDay,
+  submitDay,
+  setUpdatedDay,
+  setInitialDayValues
+};

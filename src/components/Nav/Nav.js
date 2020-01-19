@@ -37,7 +37,7 @@ function Nav() {
             </Link>
           </li>
           <li>
-            <Link to="/events">
+            <Link to="/days">
               <FaCalendarAlt />
             </Link>
           </li>
