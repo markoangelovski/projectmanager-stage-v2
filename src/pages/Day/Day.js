@@ -14,7 +14,7 @@ const Day = props => {
   const dayId = props.match.params.dayId;
 
   useEffect(() => {
-    if (/^[a-f\d]{24}$/i.test(dayId)) getSingleDay(dayId);
+    if (/^[a-f\d]{24}$/i.test(dayId)) getSingleDay({ id: dayId });
 
     // App breaks without checking if the component mounted and returning null if not
     setDidMount(true);

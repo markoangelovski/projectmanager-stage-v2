@@ -39,7 +39,9 @@ const Store = createStore({
   // Days Thunks
   getDays: thunk((actions, payload) => getDays(actions, payload)),
   submitDay: thunk((actions, payload) => submitDay(actions, payload)),
-  getSingleDay: thunk((actions, payload) => getSingleDay(actions, payload)),
+  getSingleDay: thunk((actions, { start, id }) =>
+    getSingleDay(actions, { start, id })
+  ),
   // Project Actions
   setProjects: action((state, projects) => setProjects(state, projects)),
   // Task Actions

@@ -31,9 +31,9 @@ const getDaysCall = payload => {
   });
 };
 
-const getSingleDayCall = payload => {
+const getSingleDayCall = ({ start = "", id = "" }) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/days/single?start=${payload}`, {
+    fetch(`${api}/${apiversion}/days?start=${start}&id=${id}`, {
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
     })

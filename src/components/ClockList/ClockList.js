@@ -9,7 +9,7 @@ const ClockList = () => {
 
   // Load current day
   useEffect(() => {
-    getSingleDay(dayEnd);
+    getSingleDay({ start: dayEnd });
     // eslint-disable-next-line
   }, []);
 

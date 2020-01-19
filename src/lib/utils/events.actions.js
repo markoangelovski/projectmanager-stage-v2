@@ -42,11 +42,11 @@ const setDays = (state, days) => {
   state.days = days;
 };
 
-const getSingleDay = async (actions, payload) => {
+const getSingleDay = async (actions, { start, id }) => {
   actions.toggleFetching();
   try {
-    const res = await getSingleDayCall(payload);
-    if (!res.error) actions.setSingleDay(res.day);
+    const res = await getSingleDayCall({ start, id });
+    if (!res.error) actions.setSingleDay(res.days[0]);
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
