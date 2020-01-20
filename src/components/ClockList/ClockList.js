@@ -4,16 +4,16 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 import Event from "../../components/Event/Event";
 
 const ClockList = () => {
-  const { singleDay, dayEnd, fetching } = useStoreState(state => state);
+  const { singleDay, days, dayEnd, fetching } = useStoreState(state => state);
   const { getSingleDay } = useStoreActions(actions => actions);
 
   // Load current day
   useEffect(() => {
     getSingleDay({ start: dayEnd });
     // eslint-disable-next-line
-  }, []);
+  }, [days]);
 
-  if (fetching) return <div>Loading data...</div>;
+  if (fetching && !singleDay._id) return <div>Loading data...</div>;
   if (!singleDay.events) return null;
 
   return (

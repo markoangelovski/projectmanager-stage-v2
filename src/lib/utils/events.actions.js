@@ -46,7 +46,7 @@ const getSingleDay = async (actions, { start, id }) => {
   actions.toggleFetching();
   try {
     const res = await getSingleDayCall({ start, id });
-    if (!res.error) actions.setSingleDay(res.days[0]);
+    if (!res.error) actions.setSingleDay(res.days);
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();

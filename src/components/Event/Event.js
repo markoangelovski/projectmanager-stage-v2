@@ -1,20 +1,44 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useStoreState, useStoreActions } from "easy-peasy";
+import { FaTasks } from "react-icons/fa";
+import moment from "moment";
 
-import { EventBody, EventItem } from "./Event.styles";
+import {
+  EventBody,
+  EventTitle,
+  EventTask,
+  EventDuration,
+  EventBooking
+} from "./Event.styles";
 
 const Event = props => {
+  const { tasks } = useStoreState(state => state);
+  const { getTasks } = useStoreActions(actions => actions);
+
+  const { task } = props.event;
+
+  const selectedTask = tasks.find(arrTask => {
+    return arrTask._id === task;
+  });
+
+  useEffect(() => {
+    if (task && task.length > 0 && tasks.length === 0) getTasks();
+    // eslint-disable-next-line
+  }, []);
+
   return (
-    <>
-      <EventBody>
-        <EventItem>Naslov Eventa</EventItem>
-        <EventItem>9h</EventItem>
-      </EventBody>
-      <div>Title: {props.event.title}</div>
-      <div>Duration: {props.event.duration}</div>
-      <div>Task: {props.event.task}</div>
-      <div>Day: {props.event.day}</div>
-      <div>Booked: {props.event.booked ? "Yes" : "No"}</div>
-    </>
+    <EventBody>
+      <EventTitle>
+        {props.event.title}{" "}
+        <span>{moment(props.event.date).format("MMM Do")}</span>
+      </EventTitle>
+      <EventTask>
+        <FaTasks />
+        <span>{selectedTask && selectedTask.title}</span>
+      </EventTask>
+      <EventDuration>{props.event.duration}</EventDuration>
+      <EventBooking>{props.event.booked ? "Yes" : "No"}</EventBooking>
+    </EventBody>
   );
 };
 
