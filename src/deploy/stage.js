@@ -6,7 +6,7 @@ const build = path.join(__dirname, "../../", "/build");
 const stage = path.join(__dirname, "../../", "/stage");
 
 // Rename React's "build" folder to "stage" for GHPages
-if (fs.existsSync(build)) {
+if (fs.existsSync(build) && !fs.existsSync(build)) {
   fs.renameSync(build, stage);
 }
 
@@ -24,7 +24,9 @@ ghpages.publish(
     console.log(
       "Deploy to https://markoangelovski.github.io/projectmanager-stage-v2 completed."
     );
-    // Delete /stage folder
-    fs.rmdirSync(stage, { recursive: true });
+    // setTimeout(() => {
+    //   // Delete /stage folder
+    //   // fs.rmdirSync(stage, { recursive: true });
+    // }, 3000);
   }
 );
