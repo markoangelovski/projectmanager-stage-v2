@@ -5,11 +5,12 @@ const ghpages = require("gh-pages");
 const build = path.join(__dirname, "../../", "/build");
 const stage = path.join(__dirname, "../../", "/stage");
 
-// Rename React's "Build" folder to "Docs" for GHPages
+// Rename React's "build" folder to "stage" for GHPages
 if (fs.existsSync(build)) {
   fs.renameSync(build, stage);
 }
 
+// Deploy /stage to gh-pages
 ghpages.publish(
   stage,
   {
@@ -25,3 +26,6 @@ ghpages.publish(
     );
   }
 );
+
+// Delete /stage folder
+fs.rmdirSync(stage, { recursive: true });
