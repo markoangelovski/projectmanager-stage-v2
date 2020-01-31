@@ -22,7 +22,7 @@
   "scripts": {
     "start": "PORT=8080 REACT_APP_API_CONFIG=dev react-scripts start",
     "build:stage": "REACT_APP_API_CONFIG=stage react-scripts build",
-    "deploy:stage": "node src/deploy/stage.js",
+    "deploy:stage": "npm run build:stage && node src/deploy/stage.js",
     "build:prod": "REACT_APP_API_CONFIG=prod react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
