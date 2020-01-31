@@ -1,24 +1,21 @@
 import styled from "styled-components";
 import { primary, dark, shadow } from "../../constants/colors";
 
-export const Ul = styled.ul`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  width: 100%;
+export const FloatingEventStyle = styled.aside`
+  width: 40px;
+  height: 40px;
   position: fixed;
-  bottom: 0;
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  box-shadow: ${shadow};
-  z-index: 1;
+  bottom: 140px;
+  right: 20px;
 
-  > * > a {
+  div {
     background: ${primary};
-    display: block;
-    padding: 0.8rem;
     text-align: center;
+    border-radius: 50px;
+    box-shadow: ${shadow};
     color: ${dark};
+    width: 40px;
+    height: 40px;
   }
 `;
 

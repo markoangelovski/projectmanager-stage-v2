@@ -18,10 +18,6 @@ const ClockList = () => {
 
   return (
     <>
-      <div>
-        Total:{" "}
-        {singleDay.events.reduce((total, event) => total + event.duration, 0)}
-      </div>
       {singleDay.events.map(event => (
         <Event key={event._id} event={event} />
       ))}

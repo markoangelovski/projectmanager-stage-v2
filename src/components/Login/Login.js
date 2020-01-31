@@ -1,69 +1,97 @@
 import React, { useState } from "react";
+import { FaPaperPlane } from "react-icons/fa";
+
 import {
   logInCall /* ,
   logOutCall,
   checkAuthCall */
 } from "../../lib/drivers/User/user.driver";
 
+import {
+  Background,
+  LoginPlaceholder,
+  LoginForm,
+  LoginInput,
+  LoginSubmitButton,
+  LoginWarning
+} from "./Login.styles";
+
 const Login = props => {
   const { setLoggedInStatus, setUser, apiError } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
   // Unsuccessfull login
   const [loginError, setLoginError] = useState(false);
 
   const authFoo = async e => {
     e.preventDefault();
     setLoginError(false);
+    setLoading(true);
 
     const payload = {
       email,
       password
     };
 
-    const login = await logInCall(payload);
-    if (login.error) setLoginError(true);
+    const login = email && password && !apiError && (await logInCall(payload));
+    if (login.error) {
+      setLoginError(true);
+      setLoading(false);
+    }
 
     if (login.user) {
       setUser(login.user);
       setLoggedInStatus(true);
+      setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={authFoo}>
-      <div className="form-group">
-        <label htmlFor="exampleInputEmail1">Email</label>
-        <input
-          type="email"
-          className="form-control"
-          id="exampleInputEmail1"
-          placeholder="Enter email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
-      </div>
-      <div className="form-group">
-        <label htmlFor="exampleInputPassword1">Password</label>
-        <input
-          type="password"
-          className="form-control"
-          id="exampleInputPassword1"
-          placeholder="Enter password"
-          value={password}
-          onChange={e => setPassword(e.target.value)}
-        />
-      </div>
-      <p style={{ display: !loginError ? "none" : "" }}>
-        Incorrect credentials, please try again
-      </p>
-      <input
-        type="submit"
-        className="btn btn-primary"
-        value="Submit"
-        disabled={apiError}
-      />
-    </form>
+    <Background>
+      <LoginPlaceholder>
+        <LoginForm>
+          <div>
+            <LoginInput
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+            />
+          </div>
+          <LoginSubmitButton
+            email={email ? email.toString() : undefined}
+            password={password ? password.toString() : undefined}
+            apiError={apiError ? apiError.toString() : undefined}
+          >
+            <FaPaperPlane onClick={e => !apiError && authFoo(e)} />
+          </LoginSubmitButton>
+          <div>
+            <LoginInput
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+            />
+          </div>
+          {loading && (
+            <LoginWarning loading={loading ? loading.toString() : undefined}>
+              Loading...
+            </LoginWarning>
+          )}
+          {loginError && (
+            <LoginWarning>
+              Incorrect credentials, please try again.
+            </LoginWarning>
+          )}
+          {apiError && (
+            <LoginWarning>
+              Service is currently unavailable, please try again later.
+            </LoginWarning>
+          )}
+        </LoginForm>
+      </LoginPlaceholder>
+    </Background>
   );
 };
 

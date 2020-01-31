@@ -1,6 +1,15 @@
 import React from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
+import { FaPaperPlane } from "react-icons/fa";
 import moment from "moment";
+
+import {
+  EventForm,
+  EventTitle,
+  EventSetDuration,
+  EventDuration,
+  EventSubmitButton
+} from "./EventSubmit.styles";
 
 const EventSubmit = () => {
   const { eventTitle, eventDuration, selectedTask } = useStoreState(
@@ -14,6 +23,8 @@ const EventSubmit = () => {
     setInitialDayValues
   } = useStoreActions(actions => actions);
 
+  const title = eventTitle.length > 0;
+
   const submitDayCall = e => {
     e.preventDefault();
     const createEventPayload = {
@@ -23,29 +34,38 @@ const EventSubmit = () => {
       duration: eventDuration
     };
 
-    submitDay(createEventPayload);
-    setInitialDayValues();
+    if (title) {
+      submitDay(createEventPayload);
+      setInitialDayValues();
+    } else {
+      return null;
+    }
   };
 
   return (
-    <form onSubmit={e => submitDayCall(e)}>
-      <input
+    <EventForm onSubmit={e => e.preventDefault()}>
+      <EventTitle
         onChange={e => setEventTitle(e.target.value)}
         type="text"
-        placeholder="Event title"
+        placeholder="Enter Event Title:"
         value={eventTitle}
-      ></input>
-      <input
-        onChange={e => setEventDuration(e.target.value)}
-        type="number"
-        placeholder="Event duration"
-        value={eventDuration}
-        step="0.25"
-        min="0.25"
-        max="7.5"
-      ></input>
-      <input type="submit"></input>
-    </form>
+      ></EventTitle>
+      <EventSubmitButton title={title ? title.toString() : undefined}>
+        <FaPaperPlane onClick={e => submitDayCall(e)} />
+      </EventSubmitButton>
+      <EventDuration>
+        <EventSetDuration
+          onChange={e => setEventDuration(e.target.value)}
+          type="range"
+          placeholder="Event duration"
+          value={eventDuration}
+          step="0.25"
+          min="0.25"
+          max="7.5"
+        ></EventSetDuration>
+        {eventDuration}
+      </EventDuration>
+    </EventForm>
   );
 };
 

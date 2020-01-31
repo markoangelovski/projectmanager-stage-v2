@@ -1,4 +1,4 @@
-import { action, thunk, createStore } from "easy-peasy";
+import { action, thunk, createStore, computed } from "easy-peasy";
 import moment from "moment";
 
 import { getProjects, setProjects } from "../utils/projects.actions";
@@ -11,10 +11,13 @@ import {
   setDayRangeError,
   getDays,
   setDays,
-  submitDay,
-  setUpdatedDay,
   getSingleDay,
   setSingleDay,
+  getComputedDay,
+  submitDay,
+  setUpdatedDay,
+  deleteDay,
+  setDeletedDay,
   setInitialDayValues
 } from "../utils/events.actions";
 
@@ -32,6 +35,7 @@ const Store = createStore({
   days: [],
   singleDay: {},
   fetching: false,
+  overlay: false,
   // Project Thunks
   getProjects: thunk(actions => getProjects(actions)),
   // Task Thunks
@@ -42,6 +46,9 @@ const Store = createStore({
   getSingleDay: thunk((actions, { start, id }) =>
     getSingleDay(actions, { start, id })
   ),
+  deleteDay: thunk((actions, payload) => deleteDay(actions, payload)),
+  // Days Computed
+  getComputedDay: computed(state => getComputedDay(state)),
   // Project Actions
   setProjects: action((state, projects) => setProjects(state, projects)),
   // Task Actions
@@ -64,9 +71,13 @@ const Store = createStore({
   setDays: action((state, events) => setDays(state, events)),
   setUpdatedDay: action((state, day) => setUpdatedDay(state, day)),
   setSingleDay: action((state, singleDay) => setSingleDay(state, singleDay)),
+  setDeletedDay: action((state, day) => setDeletedDay(state, day)),
   setInitialDayValues: action(state => setInitialDayValues(state)),
   toggleFetching: action(state => {
     state.fetching = !state.fetching;
+  }),
+  toggleOverlay: action(state => {
+    state.overlay = !state.overlay;
   })
 });
 

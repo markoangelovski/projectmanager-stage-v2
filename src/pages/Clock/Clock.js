@@ -1,14 +1,12 @@
 import React from "react";
 
-import EventSubmit from "../../components/EventSubmit/EventSubmit";
 import ClockList from "../../components/ClockList/ClockList";
-import TaskPicker from "../../components/TaskPicker/TaskPicker";
+import DayStats from "../../components/DayStats/DayStats";
 
 const Clock = () => {
   return (
     <>
-      <EventSubmit />
-      <TaskPicker />
+      <DayStats />
       <ClockList />
     </>
   );

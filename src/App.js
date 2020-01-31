@@ -19,7 +19,10 @@ import Clock from "./pages/Clock/Clock";
 import MainMenu from "./components/MainMenu/MainMenu";
 import Nav from "./components/Nav/Nav";
 import FloatingClock from "./components/FloatingClock/FloatingClock";
+import FloatingEvent from "./components/FloatingEvent/FloatingEvent";
+import Overlay from "./components/Overlay/Overlay";
 import Login from "./components/Login/Login";
+import { Background } from "./components/Login/Login.styles";
 
 import { checkAuthCall } from "./lib/drivers/User/user.driver";
 
@@ -32,7 +35,7 @@ const App = () => {
   const [apiError, setApiError] = useState(false);
 
   useEffect(() => {
-    (async () => {
+    const login = async () => {
       try {
         const check = await checkAuthCall();
         if (check.user) {
@@ -48,11 +51,12 @@ const App = () => {
         setUser({});
         setApiError(true);
       }
-    })();
+    };
+    login();
   }, []);
 
   if (loggedInStatus === null) {
-    return <div>Authenticating...</div>;
+    return <Background />;
   }
   if (loggedInStatus) {
     return (
@@ -60,12 +64,12 @@ const App = () => {
         <MainMenu user={user}></MainMenu>
         <Nav />
         <Switch>
-          <Route
-            exact
-            path="/"
-            render={props => <Home {...props} user={user} />}
-          />
           <StoreProvider store={Store}>
+            <Route
+              exact
+              path="/"
+              render={props => <Home {...props} user={user} />}
+            />
             <Route exact path="/projects" component={Projects} />
             <Route exact path="/projects/:projectId" component={Project} />
             <Route exact path="/projects/:projectId/tasks" component={Tasks} />
@@ -78,6 +82,8 @@ const App = () => {
             <Route exact path="/days" component={Days} />
             <Route exact path="/days/:dayId" component={Day} />
             <Route exact path="/clock" component={Clock} />
+            <Overlay />
+            <FloatingEvent />
           </StoreProvider>
           {/* <Route component={Error404} /> Not working */}
         </Switch>

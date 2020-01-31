@@ -1,6 +1,14 @@
 import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { FaTasks } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import {
+  FaTasks,
+  FaRegTrashAlt,
+  FaRegCheckCircle,
+  FaBan,
+  FaBook,
+  FaPencilAlt
+} from "react-icons/fa";
 import moment from "moment";
 
 import {
@@ -8,18 +16,24 @@ import {
   EventTitle,
   EventTask,
   EventDuration,
-  EventBooking
+  EventEdit,
+  EventBooking,
+  EventSpan
 } from "./Event.styles";
 
 const Event = props => {
   const { tasks } = useStoreState(state => state);
-  const { getTasks } = useStoreActions(actions => actions);
+  const { getTasks, deleteDay } = useStoreActions(actions => actions);
 
   const { task } = props.event;
 
   const selectedTask = tasks.find(arrTask => {
     return arrTask._id === task;
   });
+
+  const taskURL =
+    selectedTask &&
+    `/projects/${selectedTask.project}/tasks/${selectedTask._id}`;
 
   useEffect(() => {
     if (task && task.length > 0 && tasks.length === 0) getTasks();
@@ -29,15 +43,33 @@ const Event = props => {
   return (
     <EventBody>
       <EventTitle>
-        {props.event.title}{" "}
-        <span>{moment(props.event.date).format("MMM Do")}</span>
+        <FaRegTrashAlt
+          onClick={() => {
+            window.confirm("Are you sure you want to delete this event?") &&
+              deleteDay({ dayId: props.event.day, eventId: props.event._id });
+          }}
+        />
+        <EventSpan>{props.event.title}</EventSpan>{" "}
+        <EventSpan small>{moment(props.event.date).format("MMM Do")}</EventSpan>
       </EventTitle>
+      <EventDuration>
+        <span>{props.event.duration} </span>h
+      </EventDuration>
+      <EventEdit>
+        <FaPencilAlt onClick={() => console.log("Clicked Edit!")} />
+      </EventEdit>
       <EventTask>
+        {props.event.booked ? <FaRegCheckCircle /> : <FaBan />}
         <FaTasks />
-        <span>{selectedTask && selectedTask.title}</span>
+        <EventSpan small>
+          {selectedTask && <Link to={taskURL}> {selectedTask.title} </Link>}
+        </EventSpan>
       </EventTask>
-      <EventDuration>{props.event.duration}</EventDuration>
-      <EventBooking>{props.event.booked ? "Yes" : "No"}</EventBooking>
+      <EventBooking>
+        {!props.event.booked && (
+          <FaBook onClick={() => console.log("Clicked Book!")} />
+        )}
+      </EventBooking>
     </EventBody>
   );
 };

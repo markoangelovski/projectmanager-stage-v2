@@ -66,9 +66,9 @@ const updateEventCall = (eventId, attributeKey, attributeValue) => {
   });
 };
 
-const deleteEventCall = start => {
+const deleteEventCall = (dayId, eventId) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/days/${start}`, {
+    fetch(`${api}/${apiversion}/days/${dayId}/${eventId}`, {
       method: "DELETE",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
