@@ -24,7 +24,7 @@
     "build:stage": "REACT_APP_API_CONFIG=stage react-scripts build",
     "deploy:stage": "git push -u origin-staging staging && npm run build:stage && node src/deploy/stage.js",
     "build:prod": "REACT_APP_API_CONFIG=prod react-scripts build",
-    "deploy:prod": "git push -u origin-master master && npm run build:prod && node src/deploy/prod.js",
+    "deploy:prod": "git push -u origin-production master && npm run build:prod && node src/deploy/prod.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
