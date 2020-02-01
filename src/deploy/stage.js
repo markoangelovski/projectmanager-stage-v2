@@ -27,5 +27,3 @@ ghpages.publish(
     );
   }
 );
-
-// fs.rmdirSync(stage, { recursive: true });
