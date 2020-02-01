@@ -25,6 +25,7 @@ ghpages.publish(
     console.log(
       "Deploy to https://markoangelovski.github.io/projectmanager-stage-v2 completed."
     );
-    fs.rmdirSync(prod, { recursive: true });
   }
 );
+
+// fs.rmdirSync(stage, { recursive: true });
