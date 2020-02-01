@@ -25,5 +25,6 @@ ghpages.publish(
     console.log(
       "Deploy to https://markoangelovski.github.io/projectmanager-prod-v2 completed."
     );
+    fs.rmdirSync(prod, { recursive: true });
   }
 );
