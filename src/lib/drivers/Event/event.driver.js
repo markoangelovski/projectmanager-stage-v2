@@ -43,13 +43,7 @@ const getSingleDayCall = ({ start = "", id = "" }) => {
   });
 };
 
-const updateEventCall = (eventId, attributeKey, attributeValue) => {
-  const payload = [
-    {
-      propName: attributeKey,
-      value: attributeValue
-    }
-  ];
+const updateEventCall = (eventId, payload) => {
   return new Promise((resolve, reject) => {
     fetch(`${api}/${apiversion}/days/${eventId}`, {
       method: "PATCH",

@@ -4,6 +4,7 @@ import {
   getDaysCall,
   getSingleDayCall,
   createEventCall,
+  updateEventCall,
   deleteEventCall
 } from "../drivers/Event/event.driver";
 
@@ -110,6 +111,23 @@ const setUpdatedDay = (state, day) => {
   }
 };
 
+const updateEvent = async (actions, { eventId, payload }) => {
+  actions.toggleFetching();
+  try {
+    const res = await updateEventCall(eventId, payload);
+    console.log("res", res);
+    if (!res.error) {
+      actions.toggleFetching();
+      actions.getSingleDay({ start: moment().format("YYYY-MM-DD") });
+    } else {
+      actions.toggleFetching();
+    }
+  } catch (error) {
+    actions.toggleFetching();
+    console.warn(error);
+  }
+};
+
 const deleteDay = async (actions, { dayId, eventId }) => {
   actions.toggleFetching();
   try {
@@ -152,6 +170,7 @@ export {
   getComputedDay,
   submitDay,
   setUpdatedDay,
+  updateEvent,
   deleteDay,
   setDeletedDay,
   setInitialDayValues

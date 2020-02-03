@@ -1,6 +1,6 @@
 {
   "pmBackend": {
-    "api": "https://pmspa-api-prod.herokuapp.com",
+    "api": "https://pmspa-api.herokuapp.com",
     "apiversion": "v1"
   },
   "CNAME": "pmspa.angelovski.ga"

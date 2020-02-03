@@ -16,6 +16,7 @@ import {
   getComputedDay,
   submitDay,
   setUpdatedDay,
+  updateEvent,
   deleteDay,
   setDeletedDay,
   setInitialDayValues
@@ -45,6 +46,9 @@ const Store = createStore({
   submitDay: thunk((actions, payload) => submitDay(actions, payload)),
   getSingleDay: thunk((actions, { start, id }) =>
     getSingleDay(actions, { start, id })
+  ),
+  updateEvent: thunk((actions, { eventId, payload }) =>
+    updateEvent(actions, { eventId, payload })
   ),
   deleteDay: thunk((actions, payload) => deleteDay(actions, payload)),
   // Days Computed

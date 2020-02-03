@@ -82,7 +82,7 @@ const App = () => {
             <Route exact path="/days" component={Days} />
             <Route exact path="/days/:dayId" component={Day} />
             <Route exact path="/clock" component={Clock} />
-            <Overlay />
+            <Overlay test1={"test1"} />
             <FloatingEvent />
           </StoreProvider>
           {/* <Route component={Error404} /> Not working */}
