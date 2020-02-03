@@ -18,7 +18,7 @@ const FloatingEvent = () => {
 
   const displayOverlay = () => {
     toggleOverlay();
-    return <Overlay />;
+    return <Overlay test1={"test2"} />;
   };
 
   return (

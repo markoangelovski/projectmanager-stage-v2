@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
 import {
@@ -21,7 +21,10 @@ import {
   EventSpan
 } from "./Event.styles";
 
+import EditEvent from "../EditEvent/EditEvent";
+
 const Event = props => {
+  const [edit, setEdit] = useState(false);
   const { tasks } = useStoreState(state => state);
   const { getTasks, deleteDay } = useStoreActions(actions => actions);
 
@@ -56,7 +59,8 @@ const Event = props => {
         <span>{props.event.duration} </span>h
       </EventDuration>
       <EventEdit>
-        <FaPencilAlt onClick={() => console.log("Clicked Edit!")} />
+        <FaPencilAlt onClick={() => setEdit(true)} />
+        {edit && <EditEvent event={props.event} setEdit={setEdit} />}
       </EventEdit>
       <EventTask>
         {props.event.booked ? <FaRegCheckCircle /> : <FaBan />}

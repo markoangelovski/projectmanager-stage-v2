@@ -7,7 +7,7 @@ export const EventBody = styled.div`
   padding: 5px 10px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr auto;
-  grid-template-rows: 1fr 1fr;
+  grid-template-rows: 1fr auto;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 
