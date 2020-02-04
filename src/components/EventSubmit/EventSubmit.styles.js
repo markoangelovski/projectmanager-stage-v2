@@ -22,7 +22,7 @@ export const EventTitle = styled.input`
 
 export const EventDuration = styled.div`
   display: grid;
-  grid-template-columns: auto 30px;
+  grid-template-columns: auto 30px 80px;
 `;
 
 export const EventSetDuration = styled.input`

@@ -151,6 +151,7 @@ const setDeletedDay = (state, day) => {
 const setInitialDayValues = state => {
   state.eventTitle = "";
   state.eventDuration = 0.25;
+  state.selectedTask = "";
   state.dayStart = moment()
     .subtract(1, "week")
     .format("YYYY-MM-DD");
