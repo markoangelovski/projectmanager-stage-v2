@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { FaPaperPlane } from "react-icons/fa";
 import moment from "moment";
+
+import EventDurationStep from "../EventDurationStep/EventDurationStep";
 
 import {
   EventForm,
@@ -24,6 +26,14 @@ const EventSubmit = () => {
   } = useStoreActions(actions => actions);
 
   const title = eventTitle.length > 0;
+
+  useEffect(() => {
+    return () => {
+      // Reset initial values each time component unmounts
+      setInitialDayValues();
+    };
+    //eslint-disable-next-line
+  }, []);
 
   const submitDayCall = e => {
     e.preventDefault();
@@ -55,7 +65,7 @@ const EventSubmit = () => {
       </EventSubmitButton>
       <EventDuration>
         <EventSetDuration
-          onChange={e => setEventDuration(e.target.value)}
+          onChange={e => setEventDuration(parseFloat(e.target.value))}
           type="range"
           placeholder="Event duration"
           value={eventDuration}
@@ -64,6 +74,7 @@ const EventSubmit = () => {
           max="7.5"
         ></EventSetDuration>
         {eventDuration}
+        <EventDurationStep />
       </EventDuration>
     </EventForm>
   );

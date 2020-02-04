@@ -35,13 +35,13 @@ export const EditEventForm = styled.form`
 `;
 
 export const EditEventSubmitButton = styled.div`
-  color: ${props => (props.title ? "black" : "grey")};
+  color: ${props => (props.eventTitle ? "black" : "grey")};
   grid-row: span 2;
   margin: auto;
   padding: 10px;
   height: 20px;
   width: 20px;
-  border: 1px solid ${props => (props.title ? "black" : "grey")};
+  border: 1px solid ${props => (props.eventTitle ? "black" : "grey")};
   border-radius: 50%;
 
   & svg {
@@ -67,7 +67,7 @@ export const EditEventInput = styled.input`
 
 export const EditEventDuration = styled.div`
   display: grid;
-  grid-template-columns: auto 30px;
+  grid-template-columns: auto 30px 80px;
 `;
 
 export const EditEventSetDuration = styled.input`
