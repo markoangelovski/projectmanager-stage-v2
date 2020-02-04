@@ -2,6 +2,15 @@ const fs = require("fs");
 const path = require("path");
 const ghpages = require("gh-pages");
 
+const robots = fs.readFileSync(
+  path.join(
+    __dirname,
+    "../",
+    `/config/${process.env.REACT_APP_API_CONFIG}.txt`
+  ),
+  "utf8"
+);
+
 const build = path.join(__dirname, "../../", "/build");
 const stage = path.join(__dirname, "../../", "/stage");
 
@@ -9,6 +18,9 @@ const stage = path.join(__dirname, "../../", "/stage");
 if (fs.existsSync(build) && !fs.existsSync(stage)) {
   fs.renameSync(build, stage);
 }
+
+// Create robots.txt file
+fs.writeFileSync(path.join(stage, "robots.txt"), robots);
 
 // Deploy /stage to gh-pages
 ghpages.publish(
