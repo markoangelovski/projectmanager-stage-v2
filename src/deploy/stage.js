@@ -3,11 +3,7 @@ const path = require("path");
 const ghpages = require("gh-pages");
 
 const robots = fs.readFileSync(
-  path.join(
-    __dirname,
-    "../",
-    `/config/${process.env.REACT_APP_API_CONFIG}.txt`
-  ),
+  path.join(__dirname, "../", `/config/stage.txt`),
   "utf8"
 );
 

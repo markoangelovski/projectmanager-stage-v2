@@ -4,11 +4,7 @@ const ghpages = require("gh-pages");
 
 const { CNAME } = require("../config/prod.json");
 const robots = fs.readFileSync(
-  path.join(
-    __dirname,
-    "../",
-    `/config/${process.env.REACT_APP_API_CONFIG}.txt`
-  ),
+  path.join(__dirname, "../", `/config/prod.txt`),
   "utf8"
 );
 
