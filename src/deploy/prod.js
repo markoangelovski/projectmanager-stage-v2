@@ -3,6 +3,10 @@ const path = require("path");
 const ghpages = require("gh-pages");
 
 const { CNAME } = require("../config/prod.json");
+const robots = fs.readFileSync(
+  path.join(__dirname, "../", `/config/prod.txt`),
+  "utf8"
+);
 
 const build = path.join(__dirname, "../../", "/build");
 const prod = path.join(__dirname, "../../", "/prod");
@@ -14,6 +18,9 @@ if (fs.existsSync(build) && !fs.existsSync(prod)) {
 
 // Create CNAME file
 fs.writeFileSync(path.join(__dirname, "../../", "prod", "CNAME"), CNAME);
+
+// Create robots.txt file
+fs.writeFileSync(path.join(prod, "robots.txt"), robots);
 
 // Deploy /prod to gh-pages
 ghpages.publish(
