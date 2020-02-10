@@ -10,7 +10,7 @@ import {
   ProjectDetail,
   ProjectDescription,
   ProjectTaskCount
-} from "./ProjectListItem.styles";
+} from "./ProjectsListItem.styles";
 
 const ProjectListItem = ({ project }) => {
   return (

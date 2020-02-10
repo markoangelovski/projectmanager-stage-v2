@@ -3,7 +3,7 @@ import { useStoreState, useStoreActions } from "easy-peasy";
 
 import { ProjectsWrapper } from "./Projects.styles";
 
-import ProjectListItem from "../../components/ProjectsListItem/ProjectListItem";
+import ProjectsListItem from "../../components/ProjectsListItem/ProjectsListItem";
 
 const Projects = props => {
   const { projects, fetching } = useStoreState(state => state);
@@ -21,7 +21,7 @@ const Projects = props => {
   return (
     <ProjectsWrapper>
       {projects.map(project => {
-        return <ProjectListItem key={project._id} project={project} />;
+        return <ProjectsListItem key={project._id} project={project} />;
       })}
     </ProjectsWrapper>
   );
