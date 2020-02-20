@@ -1,11 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
+import { FaFile } from "react-icons/fa";
 
-import { ProjectsWrapper } from "./Projects.styles";
+import {
+  ProjectsWrapper,
+  ProjectMenu,
+  ProjectMenuItem
+} from "./Projects.styles";
 
+import NewProject from "../../components/NewProject/NewProject";
 import ProjectsListItem from "../../components/ProjectsListItem/ProjectsListItem";
 
 const Projects = props => {
+  const [newProject, setNewProject] = useState(false);
+
   const { projects, fetching } = useStoreState(state => state);
   console.log("<Projects>", projects);
 
@@ -20,6 +28,12 @@ const Projects = props => {
 
   return (
     <ProjectsWrapper>
+      <ProjectMenu>
+        <ProjectMenuItem>
+          <FaFile onClick={() => setNewProject(true)} />
+        </ProjectMenuItem>
+        {newProject && <NewProject setNewProject={setNewProject} />}
+      </ProjectMenu>
       {projects.map(project => {
         return <ProjectsListItem key={project._id} project={project} />;
       })}

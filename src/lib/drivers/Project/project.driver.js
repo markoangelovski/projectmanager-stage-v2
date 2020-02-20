@@ -14,9 +14,9 @@ const getProjectsCall = () => {
   });
 };
 
-const submitProjectCall = (task, payload) => {
+const submitProjectCall = payload => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/links/${task}`, {
+    fetch(`${api}/${apiversion}/projects`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

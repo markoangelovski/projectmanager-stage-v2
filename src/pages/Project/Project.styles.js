@@ -17,7 +17,6 @@ export const ProjectMenu = styled.div`
 
   &
     div:nth-child(${props => {
-        console.log("props", props);
         if (props.info) return 1;
         if (props.tasks) return 2;
         if (props.json) return 3;
