@@ -2,14 +2,9 @@ import styled from "styled-components";
 
 import { primary, shadow } from "../../constants/colors";
 
-const vw = Math.max(
-  document.documentElement.clientWidth,
-  window.innerWidth || 0
-);
-
 export const Background = styled.div`
   position: fixed;
-  width: ${vw}px;
+  width: 100%;
   height: 100%;
   top: 0px;
   left: 0px;
