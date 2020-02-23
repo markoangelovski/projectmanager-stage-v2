@@ -73,6 +73,10 @@ const BookEvent = props => {
         setBookingError(true);
         setLoading(false);
       }
+    } else {
+      setMsg("Task, Username and Password are mandatory.");
+      setBookingError(true);
+      setLoading(false);
     }
   };
 
