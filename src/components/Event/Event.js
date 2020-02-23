@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import {
   FaTasks,
   FaRegTrashAlt,
-  FaRegCheckCircle,
+  FaCheck,
   FaBan,
   FaBook,
   FaPencilAlt
@@ -22,9 +22,11 @@ import {
 } from "./Event.styles";
 
 import EditEvent from "../EditEvent/EditEvent";
+import EventBook from "../EventBook/EventBook";
 
 const Event = props => {
   const [edit, setEdit] = useState(false);
+  const [booking, setBooking] = useState(false);
   const { tasks } = useStoreState(state => state);
   const { getTasks, deleteDay } = useStoreActions(actions => actions);
 
@@ -63,16 +65,15 @@ const Event = props => {
         {edit && <EditEvent event={props.event} setEdit={setEdit} />}
       </EventEdit>
       <EventTask>
-        {props.event.booked ? <FaRegCheckCircle /> : <FaBan />}
+        {props.event.booked ? <FaCheck /> : <FaBan />}
         <FaTasks />
         <EventSpan small>
           {selectedTask && <Link to={taskURL}> {selectedTask.title} </Link>}
         </EventSpan>
       </EventTask>
       <EventBooking>
-        {!props.event.booked && (
-          <FaBook onClick={() => console.log("Clicked Book!")} />
-        )}
+        {!props.event.booked && <FaBook onClick={() => setBooking(true)} />}
+        {booking && <EventBook event={props.event} setBooking={setBooking} />}
       </EventBooking>
     </EventBody>
   );

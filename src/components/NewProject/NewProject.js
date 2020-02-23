@@ -14,9 +14,7 @@ import {
 import { submitProjectCall } from "../../lib/drivers/Project/project.driver";
 import { url } from "../../constants/regex";
 
-const NewProject = props => {
-  const { setNewProject } = props;
-
+const NewProject = ({ setNewProject }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [pl, setPl] = useState("");
