@@ -60,16 +60,23 @@ const BookEvent = props => {
     };
 
     if (username && password && selectedTaskTitle) {
-      const bookedEvent = await bookEventCall(payload);
-
-      if (!bookedEvent.error) {
-        setMsg(bookedEvent.message);
-        setScr(bookedEvent.scr);
-        setBookingError(false);
-        setEventBooked(true);
-        setLoading(false);
-      } else {
-        setMsg(bookedEvent.message);
+      try {
+        const bookedEvent = await bookEventCall(payload);
+        if (!bookedEvent.error) {
+          setMsg(bookedEvent.message);
+          setScr(bookedEvent.scr);
+          setBookingError(false);
+          setEventBooked(true);
+          setLoading(false);
+        } else {
+          setMsg(bookedEvent.message);
+          setBookingError(true);
+          setLoading(false);
+        }
+      } catch (error) {
+        setMsg(
+          `Oops! I am not currently able to do that, sorry! :( Please try again in a moment. Error:${error}`
+        );
         setBookingError(true);
         setLoading(false);
       }
@@ -122,7 +129,7 @@ const BookEvent = props => {
               )}
               {loading && (
                 <BookEventWarning>
-                  Loading... Please provide up to 15 seconds to complete the
+                  Loading... Please provide up to 30 seconds to complete the
                   booking.
                 </BookEventWarning>
               )}
