@@ -8,7 +8,7 @@ import TaskPicker from "../TaskPicker/TaskPicker";
 
 const Overlay = props => {
   const { overlay } = useStoreState(state => state);
-  console.log("props.childerb", props);
+  console.log("props.children", props);
 
   if (overlay) {
     return (
