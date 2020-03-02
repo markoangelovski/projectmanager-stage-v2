@@ -27,6 +27,10 @@ export const EditEventForm = styled.form`
   grid-template-rows: auto auto;
   grid-gap: 10px;
   padding: 0 10px;
+
+  div:first-child {
+    display: flex;
+  }
 `;
 
 export const EditEventSubmitButton = styled.div`
