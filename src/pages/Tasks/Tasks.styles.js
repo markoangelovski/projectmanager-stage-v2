@@ -14,6 +14,16 @@ export const TaskMenu = styled.div`
     font-size: 0.7rem;
     vertical-align: middle;
   }
+
+  &
+    div:nth-child(${props => {
+        if (props.upcoming) return 1;
+        if (props.inProgress) return 2;
+        if (props.completed) return 3;
+      }})
+    > svg {
+    color: black;
+  }
 `;
 
 export const TaskMenuItem = styled.div`
