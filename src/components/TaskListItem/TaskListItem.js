@@ -29,9 +29,12 @@ const TaskListItem = ({ taskId }) => {
     selectedTask &&
     projects.find(project => project._id === selectedTask.project);
 
+  const taskURL = `/projects/${selectedProject &&
+    selectedProject._id}/tasks/${taskId}`;
+
   return selectedTask ? (
     <TaskBody>
-      <Link to={`/projects/${selectedProject._id}/tasks/${taskId}`}>
+      <Link to={taskURL}>
         <TaskDetailWrapper>
           <TaskTitle>{selectedTask.title}</TaskTitle>
           <TaskDetail>
