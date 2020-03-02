@@ -32,6 +32,8 @@ const TaskListItem = ({ taskId }) => {
   const taskURL = `/projects/${selectedProject &&
     selectedProject._id}/tasks/${taskId}`;
 
+  const projectURL = `/projects/${selectedProject && selectedProject._id}`;
+
   return selectedTask ? (
     <TaskBody>
       <Link to={taskURL}>
@@ -54,8 +56,8 @@ const TaskListItem = ({ taskId }) => {
           <TaskProjectLink>
             {selectedTask.done ? <FaCheck /> : <FaBan />}
             <FaProjectDiagram />
-            <Link to={`/projects/${selectedProject._id}`}>
-              {selectedProject.title}
+            <Link to={projectURL}>
+              {selectedProject && selectedProject.title}
             </Link>
           </TaskProjectLink>
         </TaskIcon>
