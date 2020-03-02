@@ -5,11 +5,7 @@ import { TaskPickerForm, TaskPickerSelect } from "./TaskPicker.styles";
 
 const TaskPicker = () => {
   const { tasks, fetching, overlay } = useStoreState(state => state);
-  const { getTasks, setSelectedTask } = useStoreActions(actions => actions);
-
-  const fetchTasks = () => {
-    if (tasks.length === 0) getTasks();
-  };
+  const { setSelectedTask } = useStoreActions(actions => actions);
 
   useEffect(() => {
     setSelectedTask("");
@@ -19,7 +15,6 @@ const TaskPicker = () => {
   return (
     <TaskPickerForm>
       <TaskPickerSelect
-        onClick={e => fetchTasks()}
         onInput={e => setSelectedTask(e.target.value)}
         name="tasks"
         id="task-select"

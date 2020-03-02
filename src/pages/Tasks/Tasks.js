@@ -1,29 +1,39 @@
-import React, { useEffect } from "react";
+import React, { useEffect /* , useState */ } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
+// import { FaFile } from "react-icons/fa";
 
-const Tasks = props => {
-  // const { tasks } = useContext(TasksContext);
-  const { tasks, fetching } = useStoreState(state => state);
+import { TasksWrapper /* , TaskMenu, TaskMenuItem */ } from "./Tasks.styles";
+
+// import NewTask from "../../components/NewTask/NewTask";
+import TaskListItem from "../../components/TaskListItem/TaskListItem";
+
+const Tasks = ({ taskId }) => {
+  // const [newTask, setNewTask] = useState(false);
+
+  const { projects, tasks, fetching } = useStoreState(state => state);
   console.log("<Tasks>", tasks);
 
-  const getTasks = useStoreActions(actions => actions.getTasks);
+  const getProjects = useStoreActions(actions => actions.getProjects);
 
   useEffect(() => {
-    if (tasks.length === 0) getTasks();
+    if (projects.length === 0) getProjects();
     // eslint-disable-next-line
   }, []);
 
   if (fetching) return <div>Loading tasks...</div>;
 
   return (
-    <>
+    <TasksWrapper>
+      {/* <TaskMenu>
+        <TaskMenuItem>
+          <FaFile onClick={() => setNewTask(true)} />
+        </TaskMenuItem>
+        {newTask && <NewTask setNewTask={setNewTask} />}
+      </TaskMenu> */}
       {tasks.map(task => (
-        <div key={task._id}>
-          <div>Task: {task.title}</div>
-          <div>Column: {task.column}</div>
-        </div>
+        <TaskListItem key={task._id} taskId={task._id} />
       ))}
-    </>
+    </TasksWrapper>
   );
 };
 

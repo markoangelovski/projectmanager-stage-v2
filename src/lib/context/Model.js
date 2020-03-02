@@ -2,7 +2,13 @@ import { action, thunk, createStore, computed } from "easy-peasy";
 import moment from "moment";
 
 import { getProjects, setProjects } from "../utils/projects.actions";
-import { getTasks, setTasks, setSelectedTask } from "../utils/tasks.actions";
+import {
+  getTasks,
+  setTasks,
+  setSelectedTask,
+  getNotes,
+  setNotes
+} from "../utils/tasks.actions";
 import {
   setDayStart,
   setDayEnd,
@@ -19,15 +25,20 @@ import {
   updateEvent,
   deleteDay,
   setDeletedDay,
-  setInitialDayValues
+  setInitialDayValues,
+  getSingleTaskEvents,
+  setSingleTaskEvents,
+  reFetchEvents
 } from "../utils/events.actions";
 
 const Store = createStore({
   projects: [],
   tasks: [],
+  notes: [],
+  singleTaskEvents: [],
   selectedTask: "",
   dayStart: moment()
-    .subtract(1, "week")
+    .subtract(4, "week")
     .format("YYYY-MM-DD"),
   dayEnd: moment().format("YYYY-MM-DD"),
   eventTitle: "",
@@ -41,6 +52,7 @@ const Store = createStore({
   getProjects: thunk(actions => getProjects(actions)),
   // Task Thunks
   getTasks: thunk(actions => getTasks(actions)),
+  getNotes: thunk(actions => getNotes(actions)),
   // Days Thunks
   getDays: thunk((actions, payload) => getDays(actions, payload)),
   submitDay: thunk((actions, payload) => submitDay(actions, payload)),
@@ -51,6 +63,10 @@ const Store = createStore({
     updateEvent(actions, { eventId, payload })
   ),
   deleteDay: thunk((actions, payload) => deleteDay(actions, payload)),
+  getSingleTaskEvents: thunk((actions, payload) =>
+    getSingleTaskEvents(actions, payload)
+  ),
+  reFetchEvents: thunk(actions => reFetchEvents(actions)),
   // Days Computed
   getComputedDay: computed(state => getComputedDay(state)),
   // Project Actions
@@ -60,6 +76,7 @@ const Store = createStore({
   setSelectedTask: action((state, selectedTask) =>
     setSelectedTask(state, selectedTask)
   ),
+  setNotes: action((state, notes) => setNotes(state, notes)),
   // Days Actions
   setDayStart: action((state, dayStart) => setDayStart(state, dayStart)),
   setDayEnd: action((state, dayEnd) => setDayEnd(state, dayEnd)),
@@ -77,6 +94,10 @@ const Store = createStore({
   setSingleDay: action((state, singleDay) => setSingleDay(state, singleDay)),
   setDeletedDay: action((state, day) => setDeletedDay(state, day)),
   setInitialDayValues: action(state => setInitialDayValues(state)),
+  setSingleTaskEvents: action((state, events) =>
+    setSingleTaskEvents(state, events)
+  ),
+  // Misc
   toggleFetching: action(state => {
     state.fetching = !state.fetching;
   }),

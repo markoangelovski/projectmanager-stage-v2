@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { Link } from "react-router-dom";
 import {
@@ -28,7 +28,7 @@ const Event = props => {
   const [edit, setEdit] = useState(false);
   const [booking, setBooking] = useState(false);
   const { tasks } = useStoreState(state => state);
-  const { getTasks, deleteDay } = useStoreActions(actions => actions);
+  const { deleteDay } = useStoreActions(actions => actions);
 
   const { task } = props.event;
 
@@ -39,11 +39,6 @@ const Event = props => {
   const taskURL =
     selectedTask &&
     `/projects/${selectedTask.project}/tasks/${selectedTask._id}`;
-
-  useEffect(() => {
-    if (task && task.length > 0 && tasks.length === 0) getTasks();
-    // eslint-disable-next-line
-  }, []);
 
   return (
     <EventBody>

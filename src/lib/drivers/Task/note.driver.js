@@ -1,6 +1,18 @@
 const {
   pmBackend: { api, apiversion }
-} = require(`../../../config/${process.env.API_CONFIG}`);
+} = require(`../../../config/${process.env.REACT_APP_API_CONFIG}`);
+
+const getNotesCall = () => {
+  return new Promise((resolve, reject) => {
+    fetch(`${api}/${apiversion}/notes`, {
+      // Credentials: include for sending the cookie from the browser to the backend
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+};
 
 const submitNoteCall = (task, payload) => {
   return new Promise((resolve, reject) => {
@@ -45,4 +57,4 @@ const deleteNoteCall = (taskId, noteId) => {
   });
 };
 
-export { submitNoteCall, editNoteCall, deleteNoteCall };
+export { getNotesCall, submitNoteCall, editNoteCall, deleteNoteCall };
