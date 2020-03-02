@@ -18,6 +18,7 @@ import {
 
 const EditEvent = props => {
   const [inputAllowed, setInputAllowed] = useState(false);
+  const [booked, setBooked] = useState(props.event.booked);
 
   const { eventTitle, eventDuration, selectedTask } = useStoreState(
     state => state
@@ -33,7 +34,7 @@ const EditEvent = props => {
     setEventTitle(props.event.title);
     setEventDuration(props.event.duration);
     return () => {
-      // Reset initial values each time component renders
+      // Reset initial values each time component unmounts
       setInitialDayValues();
     };
     //eslint-disable-next-line
@@ -48,6 +49,10 @@ const EditEvent = props => {
       {
         propName: "duration",
         propValue: eventDuration
+      },
+      {
+        propName: "booked",
+        propValue: booked
       }
     ];
 
@@ -87,6 +92,13 @@ const EditEvent = props => {
                 value={eventTitle}
                 onChange={e => setEventTitle(e.target.value)}
               />
+              <input
+                type="checkbox"
+                id="booked"
+                defaultChecked={props.event.booked}
+                onChange={e => setBooked(!booked)}
+              />
+              <label htmlFor="booked">Booked</label>
             </div>
             <EditEventSubmitButton
               eventTitle={eventTitle ? eventTitle.toString() : undefined}
