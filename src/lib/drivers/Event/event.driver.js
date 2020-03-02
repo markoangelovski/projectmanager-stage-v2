@@ -73,10 +73,23 @@ const deleteEventCall = (dayId, eventId) => {
   });
 };
 
+const getSingleTaskEventsCall = task => {
+  return new Promise((resolve, reject) => {
+    fetch(`${api}/${apiversion}/days?task=${task}`, {
+      // Credentials: include for sending the cookie from the browser to the backend
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+};
+
 export {
   createEventCall,
   getDaysCall,
   getSingleDayCall,
   updateEventCall,
-  deleteEventCall
+  deleteEventCall,
+  getSingleTaskEventsCall
 };

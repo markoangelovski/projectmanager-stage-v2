@@ -5,7 +5,8 @@ import {
   getSingleDayCall,
   createEventCall,
   updateEventCall,
-  deleteEventCall
+  deleteEventCall,
+  getSingleTaskEventsCall
 } from "../drivers/Event/event.driver";
 
 const setDayStart = (state, dayStart) => {
@@ -49,11 +50,7 @@ const getSingleDay = async (actions, { start, id }) => {
   try {
     const res = await getSingleDayCall({ start, id });
     if (!res.error) actions.setSingleDay(res.days);
-    if (
-      res.message === "Day not found." ||
-      res.message === "No day entries found."
-    )
-      actions.setSingleDay({});
+    if (res.message === "No day entries found.") actions.setSingleDay({});
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -89,6 +86,7 @@ const submitDay = async (actions, payload) => {
   try {
     const res = await createEventCall(payload);
     if (!res.error) actions.setUpdatedDay(res.day);
+    actions.reFetchEvents();
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -115,10 +113,9 @@ const updateEvent = async (actions, { eventId, payload }) => {
   actions.toggleFetching();
   try {
     const res = await updateEventCall(eventId, payload);
-    console.log("res", res);
     if (!res.error) {
       actions.toggleFetching();
-      actions.getSingleDay({ start: moment().format("YYYY-MM-DD") });
+      actions.reFetchEvents();
     } else {
       actions.toggleFetching();
     }
@@ -133,6 +130,7 @@ const deleteDay = async (actions, { dayId, eventId }) => {
   try {
     const res = await deleteEventCall(dayId, eventId);
     if (!res.error) actions.setDeletedDay(res.day);
+    actions.reFetchEvents();
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -153,9 +151,47 @@ const setInitialDayValues = state => {
   state.eventDuration = 0.25;
   state.selectedTask = "";
   state.dayStart = moment()
-    .subtract(1, "week")
+    .subtract(4, "week")
     .format("YYYY-MM-DD");
   state.dayEnd = moment().format("YYYY-MM-DD");
+};
+
+const getSingleTaskEvents = async (actions, payload) => {
+  actions.toggleFetching();
+  try {
+    const { events } = await getSingleTaskEventsCall(payload);
+    actions.setSingleTaskEvents(events);
+    actions.toggleFetching();
+  } catch (error) {
+    actions.toggleFetching();
+    console.warn(error);
+  }
+};
+
+const setSingleTaskEvents = (state, events) => {
+  state.singleTaskEvents = events;
+};
+
+const reFetchEvents = async actions => {
+  const slug = window.location.hash;
+
+  // If Clock route is being displayed, re-fetch events by current date
+  /clock/.test(slug) &&
+    actions.getSingleDay({ start: moment().format("YYYY-MM-DD") });
+
+  // If Days route is being displayed, re-fetch events by day's ID
+  if (/days/.test(slug)) {
+    const slugData = window.location.hash.match(/days/);
+    const dayId = slugData.input.split("/")[2];
+    actions.getSingleDay({ id: dayId });
+  }
+
+  // If Projects/Tasks route is being displayed, re-fetch events by tasks's ID
+  if (/tasks/.test(slug)) {
+    const slugData = window.location.hash.match(/tasks/);
+    const taskId = slugData.input.split("/")[4];
+    actions.getSingleTaskEvents(taskId);
+  }
 };
 
 export {
@@ -174,5 +210,8 @@ export {
   updateEvent,
   deleteDay,
   setDeletedDay,
-  setInitialDayValues
+  setInitialDayValues,
+  getSingleTaskEvents,
+  setSingleTaskEvents,
+  reFetchEvents
 };

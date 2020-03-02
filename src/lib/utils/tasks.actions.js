@@ -1,4 +1,5 @@
 import { getTasksCall } from "../drivers/Task/task.driver";
+import { getNotesCall } from "../drivers/Task/note.driver";
 
 const getTasks = async actions => {
   actions.toggleFetching();
@@ -20,4 +21,20 @@ const setSelectedTask = (state, selectedTask) => {
   state.selectedTask = selectedTask;
 };
 
-export { getTasks, setTasks, setSelectedTask };
+const getNotes = async actions => {
+  actions.toggleFetching();
+  try {
+    const { notes } = await getNotesCall();
+    actions.setNotes(notes);
+    actions.toggleFetching();
+  } catch (error) {
+    actions.toggleFetching();
+    console.warn(error);
+  }
+};
+
+const setNotes = (state, notes) => {
+  state.notes = notes;
+};
+
+export { getTasks, setTasks, setSelectedTask, getNotes, setNotes };

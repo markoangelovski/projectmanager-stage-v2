@@ -78,11 +78,7 @@ const Project = props => {
       {info && <ProjectDetailsItem project={selectedProject} />}
       {tasks &&
         selectedProject.tasks.map(task => (
-          <TaskListItem
-            key={task}
-            projectId={props.match.params.projectId}
-            taskId={task}
-          />
+          <TaskListItem key={task} taskId={task} />
         ))}
       {json && (
         <ProjectSource>
