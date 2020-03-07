@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import { FaInfo, FaTasks, FaCode } from "react-icons/fa";
+import { FaInfo, FaTasks, FaCode, FaFile } from "react-icons/fa";
 
 import {
   ProjectWrapper,
@@ -11,6 +11,7 @@ import {
 
 import ProjectDetailsItem from "../../components/ProjectDetailsItem/ProjectDetailsItem";
 import TaskListItem from "../../components/TaskListItem/TaskListItem";
+import NewTask from "../../components/NewTask/NewTask";
 
 const Project = props => {
   const { projects, fetching } = useStoreState(state => state);
@@ -20,6 +21,8 @@ const Project = props => {
   const [info, setInfo] = useState(false);
   const [tasks, setTasks] = useState(false);
   const [json, setJson] = useState(false);
+
+  const [newTask, setNewTask] = useState(false);
 
   const selectedProject = projects.find(
     project => props.match.params.projectId === project._id
@@ -65,14 +68,19 @@ const Project = props => {
   return selectedProject ? (
     <ProjectWrapper>
       <ProjectMenu info={info} tasks={tasks} json={json}>
-        <ProjectMenuItem data-type="info" onClick={e => selectMenu(e)}>
-          <FaInfo data-type="info" />
-        </ProjectMenuItem>
-        <ProjectMenuItem data-type="tasks" onClick={e => selectMenu(e)}>
-          <FaTasks data-type="tasks" />
-        </ProjectMenuItem>
-        <ProjectMenuItem data-type="json" onClick={e => selectMenu(e)}>
-          <FaCode data-type="json" />
+        <div>
+          <ProjectMenuItem data-type="info" onClick={e => selectMenu(e)}>
+            <FaInfo data-type="info" />
+          </ProjectMenuItem>
+          <ProjectMenuItem data-type="tasks" onClick={e => selectMenu(e)}>
+            <FaTasks data-type="tasks" />
+          </ProjectMenuItem>
+          <ProjectMenuItem data-type="json" onClick={e => selectMenu(e)}>
+            <FaCode data-type="json" />
+          </ProjectMenuItem>
+        </div>
+        <ProjectMenuItem onClick={e => setNewTask(true)}>
+          <FaFile onClick={e => setNewTask(true)} />
         </ProjectMenuItem>
       </ProjectMenu>
       {info && <ProjectDetailsItem project={selectedProject} />}
@@ -85,6 +93,8 @@ const Project = props => {
           <code>{JSON.stringify(selectedProject, null, 5)}</code>
         </ProjectSource>
       )}
+
+      {newTask && <NewTask setNewTask={setNewTask} project={selectedProject} />}
     </ProjectWrapper>
   ) : (
     <div>Project not found.</div>
