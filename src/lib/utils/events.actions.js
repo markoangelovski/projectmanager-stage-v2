@@ -159,8 +159,10 @@ const setInitialDayValues = state => {
 const getSingleTaskEvents = async (actions, payload) => {
   actions.toggleFetching();
   try {
-    const { events } = await getSingleTaskEventsCall(payload);
-    actions.setSingleTaskEvents(events);
+    const res = await getSingleTaskEventsCall(payload);
+    if (!res.error) actions.setSingleTaskEvents(res.events);
+    if (res.message === "No event entries found.")
+      actions.setSingleTaskEvents([]);
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();

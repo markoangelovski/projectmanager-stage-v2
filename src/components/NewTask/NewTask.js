@@ -24,7 +24,7 @@ const NewTask = props => {
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [pl, setPl] = useState("");
+  const [pl, setPl] = useState(project.pl);
   const [kanboard, setKanboard] = useState("");
   const [nas, setNas] = useState("");
   const [column, setColumn] = useState("Upcoming");
