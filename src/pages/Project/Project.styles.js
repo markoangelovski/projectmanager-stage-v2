@@ -8,6 +8,7 @@ export const ProjectWrapper = styled.div`
 
 export const ProjectMenu = styled.div`
   display: flex;
+  justify-content: space-between;
 
   svg {
     color: rgba(104, 104, 104, 0.8);
@@ -15,8 +16,12 @@ export const ProjectMenu = styled.div`
     vertical-align: middle;
   }
 
-  &
-    div:nth-child(${props => {
+  > div:first-child {
+    display: flex;
+  }
+
+  div
+    > div:nth-child(${props => {
         if (props.info) return 1;
         if (props.tasks) return 2;
         if (props.json) return 3;

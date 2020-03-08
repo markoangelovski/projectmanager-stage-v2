@@ -6,7 +6,7 @@ import {
   FaRegTrashAlt,
   FaCheck,
   FaBan,
-  FaBook,
+  // FaBook,
   FaPencilAlt
 } from "react-icons/fa";
 import moment from "moment";
@@ -17,16 +17,16 @@ import {
   EventTask,
   EventDuration,
   EventEdit,
-  EventBooking,
+  // EventBooking,
   EventSpan
 } from "./Event.styles";
 
 import EditEvent from "../EditEvent/EditEvent";
-import EventBook from "../EventBook/EventBook";
+// import EventBook from "../EventBook/EventBook";
 
 const Event = props => {
   const [edit, setEdit] = useState(false);
-  const [booking, setBooking] = useState(false);
+  // const [booking, setBooking] = useState(false);
   const { tasks } = useStoreState(state => state);
   const { deleteDay } = useStoreActions(actions => actions);
 
@@ -66,10 +66,10 @@ const Event = props => {
           {selectedTask && <Link to={taskURL}> {selectedTask.title} </Link>}
         </EventSpan>
       </EventTask>
-      <EventBooking>
+      {/* <EventBooking>
         {!props.event.booked && <FaBook onClick={() => setBooking(true)} />}
         {booking && <EventBook event={props.event} setBooking={setBooking} />}
-      </EventBooking>
+      </EventBooking> */}
     </EventBody>
   );
 };
