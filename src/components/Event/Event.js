@@ -6,7 +6,7 @@ import {
   FaRegTrashAlt,
   FaCheck,
   FaBan,
-  // FaBook,
+  FaBook,
   FaPencilAlt
 } from "react-icons/fa";
 import moment from "moment";
@@ -17,7 +17,7 @@ import {
   EventTask,
   EventDuration,
   EventEdit,
-  // EventBooking,
+  EventBooking,
   EventSpan
 } from "./Event.styles";
 
@@ -35,6 +35,8 @@ const Event = props => {
   const selectedTask = tasks.find(arrTask => {
     return arrTask._id === task;
   });
+
+  const hasKan = selectedTask && selectedTask.kanboard;
 
   const taskURL =
     selectedTask &&
@@ -66,10 +68,24 @@ const Event = props => {
           {selectedTask && <Link to={taskURL}> {selectedTask.title} </Link>}
         </EventSpan>
       </EventTask>
-      {/* <EventBooking>
-        {!props.event.booked && <FaBook onClick={() => setBooking(true)} />}
-        {booking && <EventBook event={props.event} setBooking={setBooking} />}
-      </EventBooking> */}
+      <EventBooking>
+        {hasKan && !props.event.booked && (
+          <a
+            href={
+              hasKan &&
+              `${selectedTask.kanboard}#d=${moment(props.event.date).format(
+                "DD-MM"
+              )}&t=${props.event.duration}`
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FaBook />
+          </a>
+        )}
+        {/* {!props.event.booked && <FaBook onClick={() => setBooking(true)} />} */}
+        {/* {booking && <EventBook event={props.event} setBooking={setBooking} />} */}
+      </EventBooking>
     </EventBody>
   );
 };
