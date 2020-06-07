@@ -86,13 +86,11 @@ const EditTask = props => {
       }
     ];
     // Remove undefinded, null or empty values from payload
-    payload = payload.filter(field => {
-      if (typeof field.value === "string" && field.value.length) {
-        return field;
-      } else if (typeof field.value == "boolean") {
-        return field;
-      }
-    });
+    payload = payload.filter(
+      field =>
+        (typeof field.value === "string" && field.value.length) ||
+        typeof field.value == "boolean"
+    );
 
     console.log("payload", payload);
     const result = await updateTaskCall(task._id, payload);
