@@ -18,7 +18,7 @@ const TaskLinksItem = ({ link }) => {
         <LinkIcon>
           <FaLink />
           <LinkPlaceholder>
-            <a href={link.link} target={"_blank"}>
+            <a href={link.link} target="_blank" rel="noopener noreferrer">
               {link.link}
             </a>
           </LinkPlaceholder>

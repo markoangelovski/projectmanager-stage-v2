@@ -14,6 +14,13 @@ export const TaskBody = styled.div`
 export const TaskDetailWrapper = styled.div`
   display: flex;
   justify-content: space-between;
+
+  svg {
+    color: rgba(104, 104, 104, 0.8);
+    font-size: 0.7rem;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
 `;
 
 export const TaskTitle = styled.span`

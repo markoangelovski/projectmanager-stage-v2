@@ -43,13 +43,7 @@ const createTaskCall = payload => {
   });
 };
 
-const updateTaskCall = (taskId, attributeKey, attributeValue) => {
-  const payload = [
-    {
-      propName: attributeKey,
-      value: attributeValue
-    }
-  ];
+const updateTaskCall = (taskId, payload) => {
   return new Promise((resolve, reject) => {
     fetch(`${api}/${apiversion}/tasks/${taskId}`, {
       method: "PATCH",
