@@ -34,15 +34,14 @@ const Task = props => {
 
   useEffect(() => {
     // Fetch Task Events
-    selectedTaskData &&
-      selectedTaskData.events.length &&
-      getSingleTaskEvents(selectedTaskData._id);
-    // eslint-disable-next-line
-  }, [selectedTaskData]);
+    events && selectedTaskData && getSingleTaskEvents(selectedTaskData._id);
 
-  useEffect(() => {
-    // Fetch notes
-    if (notes.length === 0) getNotes();
+    // Fetch Task Notes
+    notesMenu &&
+      selectedTaskData &&
+      selectedTaskData.notes.length &&
+      !notes.length &&
+      getNotes();
 
     if (!localStorage.taskMenu) localStorage.taskMenu = "info";
     if (localStorage.taskMenu === "info") {
@@ -57,7 +56,7 @@ const Task = props => {
       setJson(true);
     }
     // eslint-disable-next-line
-  }, []);
+  }, [events, notesMenu, selectedTaskData]);
 
   const selectMenu = e => {
     const type = e.target.dataset.type || e.target.parentNode.dataset.type;

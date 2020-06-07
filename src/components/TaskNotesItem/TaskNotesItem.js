@@ -14,6 +14,7 @@ import {
 } from "./TaskNotesItem.styles";
 
 const TaskNotesItem = props => {
+  // eslint-disable-next-line
   const { tasks, notes, fetching } = useStoreState(state => state);
 
   const selectedNote = notes.find(note => note._id === props.noteId);
@@ -21,7 +22,7 @@ const TaskNotesItem = props => {
   const selectedTask =
     selectedNote && tasks.find(task => task._id === selectedNote.task);
 
-  if (fetching) return <div>Loading notes...</div>;
+  // if (fetching) return <div>Loading notes...</div>;
 
   return selectedNote ? (
     <NoteBody>
