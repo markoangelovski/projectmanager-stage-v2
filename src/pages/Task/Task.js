@@ -34,7 +34,9 @@ const Task = props => {
 
   useEffect(() => {
     // Fetch Task Events
-    selectedTaskData && getSingleTaskEvents(selectedTaskData._id);
+    selectedTaskData &&
+      selectedTaskData.events.length &&
+      getSingleTaskEvents(selectedTaskData._id);
     // eslint-disable-next-line
   }, [selectedTaskData]);
 

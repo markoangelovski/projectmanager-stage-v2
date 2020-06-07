@@ -71,12 +71,9 @@ const Event = props => {
       <EventBooking>
         {hasKan && !props.event.booked && (
           <a
-            href={
-              hasKan &&
-              `${selectedTask.kanboard}#d=${moment(props.event.date).format(
-                "DD-MM"
-              )}&t=${props.event.duration}`
-            }
+            href={`${selectedTask.kanboard}#d=${moment(props.event.date).format(
+              "DD-MM"
+            )}&t=${props.event.duration}`}
             target="_blank"
             rel="noopener noreferrer"
           >
