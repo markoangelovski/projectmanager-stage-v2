@@ -5,6 +5,7 @@ import { OverlayPlaceholder, OverlayContainer } from "./Overlay.styles";
 
 import EventSubmit from "../EventSubmit/EventSubmit";
 import TaskPicker from "../TaskPicker/TaskPicker";
+import SearchTask from "../SearchTask/SearchTask";
 
 const Overlay = props => {
   const { overlay } = useStoreState(state => state);
@@ -16,6 +17,7 @@ const Overlay = props => {
         <OverlayContainer>
           <EventSubmit />
           <TaskPicker />
+          <SearchTask />
         </OverlayContainer>
       </OverlayPlaceholder>
     );

@@ -4,6 +4,7 @@ import { FaPaperPlane } from "react-icons/fa";
 
 import TaskPicker from "../TaskPicker/TaskPicker";
 import EventDurationStep from "../EventDurationStep/EventDurationStep";
+import SearchTask from "../SearchTask/SearchTask";
 
 import {
   Background,
@@ -119,6 +120,7 @@ const EditEvent = props => {
             </EditEventDuration>
           </EditEventForm>
           {!props.event.task && <TaskPicker />}
+          {!props.event.task && <SearchTask />}
           {inputAllowed && (
             <EditEventWarning>Title field is mandatory!</EditEventWarning>
           )}
