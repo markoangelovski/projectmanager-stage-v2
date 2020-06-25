@@ -12,6 +12,7 @@ import {
 import {
   setDayStart,
   setDayEnd,
+  setDayStartHour,
   setEventTitle,
   setEventDuration,
   setDayRangeError,
@@ -37,10 +38,9 @@ const Store = createStore({
   notes: [],
   singleTaskEvents: [],
   selectedTask: "",
-  dayStart: moment()
-    .subtract(4, "week")
-    .format("YYYY-MM-DD"),
+  dayStart: moment().subtract(4, "week").format("YYYY-MM-DD"),
   dayEnd: moment().format("YYYY-MM-DD"),
+  dayStartHour: 0,
   eventTitle: "",
   eventDuration: 0.25,
   dayRangeError: false,
@@ -80,6 +80,9 @@ const Store = createStore({
   // Days Actions
   setDayStart: action((state, dayStart) => setDayStart(state, dayStart)),
   setDayEnd: action((state, dayEnd) => setDayEnd(state, dayEnd)),
+  setDayStartHour: action((state, dayStartHour) =>
+    setDayStartHour(state, dayStartHour)
+  ),
   setDayRangeError: action((state, dayRangeError) =>
     setDayRangeError(state, dayRangeError)
   ),

@@ -1,10 +1,10 @@
 const {
-  pmBackend: { api, apiversion }
+  "pmspa-api": { api, apiVersion }
 } = require(`../../../config/${process.env.REACT_APP_API_CONFIG}`);
 
 const bookEventCall = payload => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/booking`, {
+    fetch(`${api}/${apiVersion}/booking`, {
       method: "POST",
       headers: {
         "Content-type": "application/json"

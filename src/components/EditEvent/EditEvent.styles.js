@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { primary, shadow } from "../../constants/colors";
+import { shadow } from "../../constants/colors";
 
 export const Background = styled.div`
   position: fixed;
@@ -47,6 +47,7 @@ export const EditEventSubmitButton = styled.div`
     color: inherit;
     font-size: inherit;
     vertical-align: inherit;
+    margin: 0px;
   }
 `;
 
@@ -62,19 +63,6 @@ export const EditEventInput = styled.input`
   &:-webkit-autofill {
     -webkit-transition-delay: 99999s;
   }
-`;
-
-export const EditEventDuration = styled.div`
-  display: grid;
-  grid-template-columns: auto 30px 80px;
-`;
-
-export const EditEventSetDuration = styled.input`
-  height: 5px;
-  appearance: none;
-  background-color: ${primary};
-  box-shadow: inset 0 3px 10px rgba(0, 0, 0, 0.6);
-  margin: 10px 10px 0 5px;
 `;
 
 export const EditEventWarning = styled.p`

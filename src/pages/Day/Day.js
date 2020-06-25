@@ -7,13 +7,15 @@ import Event from "../../components/Event/Event";
 
 const Day = props => {
   const { singleDay, fetching, days } = useStoreState(state => state);
-  const { getSingleDay } = useStoreActions(actions => actions);
+  const { getSingleDay, setSingleDay } = useStoreActions(actions => actions);
   console.log("<Day>", singleDay);
 
   const dayId = props.match.params.dayId;
 
   useEffect(() => {
     if (/^[a-f\d]{24}$/i.test(dayId)) getSingleDay({ id: dayId });
+    // Set single day to empty values when component unmounts
+    return setSingleDay;
     // eslint-disable-next-line
   }, [days]);
 

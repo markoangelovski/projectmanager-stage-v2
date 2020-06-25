@@ -10,17 +10,23 @@ import {
   EventTitle,
   EventSetDuration,
   EventDuration,
-  EventSubmitButton
+  EventSubmitButton,
+  DayStartHour,
+  TiteContainer
 } from "./EventSubmit.styles";
 
 const EventSubmit = () => {
-  const { eventTitle, eventDuration, selectedTask } = useStoreState(
-    state => state
-  );
+  const {
+    eventTitle,
+    eventDuration,
+    dayStartHour,
+    selectedTask
+  } = useStoreState(state => state);
 
   const {
     setEventTitle,
     setEventDuration,
+    setDayStartHour,
     submitDay,
     setInitialDayValues
   } = useStoreActions(actions => actions);
@@ -41,7 +47,8 @@ const EventSubmit = () => {
       day: moment().format("YYYY-MM-DD"),
       task: selectedTask ? selectedTask : "",
       title: eventTitle,
-      duration: eventDuration
+      duration: eventDuration,
+      start: dayStartHour
     };
 
     if (title) {
@@ -54,12 +61,29 @@ const EventSubmit = () => {
 
   return (
     <EventForm onSubmit={e => e.preventDefault()}>
-      <EventTitle
-        onChange={e => setEventTitle(e.target.value)}
-        type="text"
-        placeholder="Enter Event Title:"
-        value={eventTitle}
-      ></EventTitle>
+      <TiteContainer>
+        <EventTitle
+          onChange={e => setEventTitle(e.target.value)}
+          type="text"
+          placeholder="Enter Event Title:"
+          value={eventTitle}
+        ></EventTitle>
+        <DayStartHour
+          onChange={e =>
+            setDayStartHour(
+              parseFloat(e.target.value) > 0 &&
+                parseFloat(e.target.value) < 23.99 &&
+                parseFloat(e.target.value)
+            )
+          }
+          type="number"
+          placeholder="0"
+          min="0"
+          max="23.99"
+          step="0.25"
+          value={dayStartHour}
+        ></DayStartHour>
+      </TiteContainer>
       <EventSubmitButton title={title ? title.toString() : undefined}>
         <FaPaperPlane onClick={e => submitDayCall(e)} />
       </EventSubmitButton>

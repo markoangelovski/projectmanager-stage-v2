@@ -1,10 +1,10 @@
 const {
-  pmBackend: { api, apiversion }
+  "pmspa-api": { api, apiVersion }
 } = require(`../../../config/${process.env.REACT_APP_API_CONFIG}`);
 
 const getNotesCall = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/notes`, {
+    fetch(`${api}/${apiVersion}/notes`, {
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
     })
@@ -16,7 +16,7 @@ const getNotesCall = () => {
 
 const submitNoteCall = (task, payload) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/notes/${task}`, {
+    fetch(`${api}/${apiVersion}/notes/${task}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,7 +33,7 @@ const submitNoteCall = (task, payload) => {
 
 const editNoteCall = (noteId, payload) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/notes/${noteId}?note=${payload}`, {
+    fetch(`${api}/${apiVersion}/notes/${noteId}?note=${payload}`, {
       method: "PATCH",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
@@ -46,7 +46,7 @@ const editNoteCall = (noteId, payload) => {
 
 const deleteNoteCall = (taskId, noteId) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/notes/${taskId}?noteId=${noteId}`, {
+    fetch(`${api}/${apiVersion}/notes/${taskId}?noteId=${noteId}`, {
       method: "DELETE",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"

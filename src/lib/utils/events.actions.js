@@ -6,7 +6,7 @@ import {
   createEventCall,
   updateEventCall,
   deleteEventCall,
-  getSingleTaskEventsCall
+  getSingleTaskEventsCall,
 } from "../drivers/Event/event.driver";
 
 const setDayStart = (state, dayStart) => {
@@ -15,6 +15,10 @@ const setDayStart = (state, dayStart) => {
 
 const setDayEnd = (state, dayEnd) => {
   state.dayEnd = dayEnd;
+};
+
+const setDayStartHour = (state, dayStartHour) => {
+  state.dayStartHour = dayStartHour;
 };
 
 const setEventTitle = (state, eventTitle) => {
@@ -50,7 +54,7 @@ const getSingleDay = async (actions, { start, id }) => {
   try {
     const res = await getSingleDayCall({ start, id });
     if (!res.error) actions.setSingleDay(res.days);
-    if (res.message === "No day entries found.") actions.setSingleDay({});
+    if (res.message === "ERR_NO_DAY_ENTRIES_FOUND") actions.setSingleDay({});
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -59,7 +63,8 @@ const getSingleDay = async (actions, { start, id }) => {
 };
 
 const setSingleDay = (state, singleDay) => {
-  state.singleDay = singleDay;
+  state.singleDay = singleDay || {};
+  state.dayStartHour = (singleDay && singleDay.start) || 0;
 };
 
 const getComputedDay = state => {
@@ -78,7 +83,11 @@ const getComputedDay = state => {
 
   const timeRemaining = 7.5 - timeMarked;
 
-  return [totalEvents, totalBooked, timeMarked, timeRemaining];
+  const timeInDayMs = (state.dayStartHour + timeMarked) * 60 * 60 * 1000;
+  const tempTime = moment.duration(timeInDayMs);
+  var timeInDay = tempTime.hours() + ":" + tempTime.minutes();
+
+  return [totalEvents, totalBooked, timeMarked, timeRemaining, timeInDay];
 };
 
 const submitDay = async (actions, payload) => {
@@ -150,9 +159,7 @@ const setInitialDayValues = state => {
   state.eventTitle = "";
   state.eventDuration = 0.25;
   state.selectedTask = "";
-  state.dayStart = moment()
-    .subtract(4, "week")
-    .format("YYYY-MM-DD");
+  state.dayStart = moment().subtract(4, "week").format("YYYY-MM-DD");
   state.dayEnd = moment().format("YYYY-MM-DD");
 };
 
@@ -199,6 +206,7 @@ const reFetchEvents = async actions => {
 export {
   setDayStart,
   setDayEnd,
+  setDayStartHour,
   setEventTitle,
   setEventDuration,
   setDayRangeError,
@@ -215,5 +223,5 @@ export {
   setInitialDayValues,
   getSingleTaskEvents,
   setSingleTaskEvents,
-  reFetchEvents
+  reFetchEvents,
 };

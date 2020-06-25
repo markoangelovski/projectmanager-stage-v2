@@ -14,6 +14,11 @@ export const MainMenuStyle = styled.section`
   }
 `;
 
+export const TimePaceholder = styled.div`
+  float: left;
+  padding: 6px;
+`;
+
 // @media (min-width: 768px) {
 //   font-size: 2rem;
 //   margin: 0;

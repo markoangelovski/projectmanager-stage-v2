@@ -1,10 +1,10 @@
 const {
-  pmBackend: { api, apiversion }
+  "pmspa-api": { api, apiVersion }
 } = require(`../../../config/${process.env.REACT_APP_API_CONFIG}`);
 
 const getProjectsCall = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/projects`, {
+    fetch(`${api}/${apiVersion}/projects`, {
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
     })
@@ -16,7 +16,7 @@ const getProjectsCall = () => {
 
 const submitProjectCall = payload => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/projects`, {
+    fetch(`${api}/${apiVersion}/projects`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -33,7 +33,7 @@ const submitProjectCall = payload => {
 
 const editProjectCall = (linkId, payload) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/links/${linkId}/?link=${payload}`, {
+    fetch(`${api}/${apiVersion}/links/${linkId}/?link=${payload}`, {
       method: "PATCH",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
@@ -46,7 +46,7 @@ const editProjectCall = (linkId, payload) => {
 
 const deleteProjectCall = (taskId, linkId) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/links/${taskId}?linkId=${linkId}`, {
+    fetch(`${api}/${apiVersion}/links/${taskId}?linkId=${linkId}`, {
       method: "DELETE",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
