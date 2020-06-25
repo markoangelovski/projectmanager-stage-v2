@@ -6,6 +6,7 @@ export const DayStatsContainer = styled.div`
   grid-gap: 20px;
   grid-template-columns: 1fr 1fr;
   padding: 10px;
+  z-index: -1;
 
   > div {
     background: ${primary};

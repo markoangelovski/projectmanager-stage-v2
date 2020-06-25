@@ -6,8 +6,8 @@ export const EventBody = styled.div`
   background: ${primary};
   padding: 5px 10px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr auto;
-  grid-template-rows: 1fr auto;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
 
@@ -18,25 +18,7 @@ export const EventBody = styled.div`
   }
 `;
 
-export const EventTitle = styled.div`
-  grid-column: span 2;
-
-  span {
-    margin-left: 5px;
-  }
-  & svg {
-    color: rgba(255, 0, 0, 0.4);
-    cursor: pointer;
-  }
-`;
-
-export const EventSpan = styled.span`
-  color: ${props => (props.small ? "rgba(104, 104, 104, 0.8)" : "inherit")};
-  font-size: ${props => (props.small ? "0.7rem" : "inherit")};
-  margin-left: 5px;
-`;
-
-export const EventTask = styled.div`
+export const EventTaskTitle = styled.div`
   grid-column: span 2;
 
   a {
@@ -48,21 +30,47 @@ export const EventTask = styled.div`
   }
 `;
 
-export const EventEdit = styled.div`
-  display: block;
+export const EventDateSpan = styled.span`
+  color: rgba(104, 104, 104, 0.8);
+  font-size: 0.7rem;
+  float: right;
+`;
+
+export const EventTitleDurationSection = styled.div`
+  grid-column: span 2;
+  margin: 0 15% 0 0;
+`;
+
+export const EventSpan = styled.span`
+  font-size: ${props => (props.small ? "0.7rem" : "inherit")};
 `;
 
 export const EventDuration = styled.div`
-  grid-row: span 2;
-  margin: auto;
+  font-size: 1.3rem;
+  float: right;
+  white-space: nowrap;
 
   span {
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
 `;
 
-export const EventBooking = styled.div`
+export const EventUtils = styled.div`
   display: block;
+
+  svg {
+    cursor: pointer;
+    margin-left: 25px;
+  }
+
+  > svg:first-child {
+    margin-left: 0px;
+    color: rgba(255, 0, 0, 0.4);
+  }
+`;
+
+export const EventLogCount = styled.span`
+  font-size: 0.75rem;
 `;
 
 // @media (min-width: 768px) {

@@ -1,10 +1,10 @@
 const {
-  pmBackend: { api, apiversion }
+  "pmspa-api": { api, apiVersion }
 } = require(`../../../config/${process.env.REACT_APP_API_CONFIG}`);
 
 const checkAuthCall = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/auth`, {
+    fetch(`${api}/${apiVersion}/auth`, {
       method: "POST",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
@@ -17,7 +17,7 @@ const checkAuthCall = () => {
 
 const logInCall = payload => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/auth/login`, {
+    fetch(`${api}/${apiVersion}/auth/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -34,7 +34,7 @@ const logInCall = payload => {
 
 const logOutCall = () => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/auth/logout`, {
+    fetch(`${api}/${apiVersion}/auth/logout`, {
       method: "GET",
       // Credentials: include for setting the cookie in browser
       credentials: "include"

@@ -3,7 +3,6 @@ import { useStoreActions, useStoreState } from "easy-peasy";
 import { FaPaperPlane } from "react-icons/fa";
 
 import TaskPicker from "../TaskPicker/TaskPicker";
-import EventDurationStep from "../EventDurationStep/EventDurationStep";
 import SearchTask from "../SearchTask/SearchTask";
 
 import {
@@ -12,23 +11,19 @@ import {
   EditEventForm,
   EditEventInput,
   EditEventSubmitButton,
-  EditEventDuration,
-  EditEventSetDuration,
-  EditEventWarning
+  EditEventWarning,
 } from "./EditEvent.styles";
 
 const EditEvent = props => {
   const [inputAllowed, setInputAllowed] = useState(false);
   const [booked, setBooked] = useState(props.event.booked);
 
-  const { eventTitle, eventDuration, selectedTask } = useStoreState(
-    state => state
-  );
+  const { eventTitle, selectedTask } = useStoreState(state => state);
   const {
     setEventTitle,
     setEventDuration,
     updateEvent,
-    setInitialDayValues
+    setInitialDayValues,
   } = useStoreActions(actions => actions);
 
   useEffect(() => {
@@ -45,28 +40,24 @@ const EditEvent = props => {
     const payload = [
       {
         propName: "title",
-        propValue: eventTitle
-      },
-      {
-        propName: "duration",
-        propValue: eventDuration
+        propValue: eventTitle,
       },
       {
         propName: "booked",
-        propValue: booked
-      }
+        propValue: booked,
+      },
     ];
 
     if (selectedTask.length > 0)
       payload.push({
         propName: "task",
-        propValue: selectedTask
+        propValue: selectedTask,
       });
     console.log("payload", payload);
     if (payload[0].propValue.length > 0) {
       updateEvent({
         eventId: props.event._id,
-        payload
+        payload,
       });
       props.setEdit(false);
       setInitialDayValues();
@@ -101,23 +92,9 @@ const EditEvent = props => {
               />
               <label htmlFor="booked">Booked</label>
             </div>
-            <EditEventSubmitButton
-              eventTitle={eventTitle ? eventTitle.toString() : undefined}
-            >
+            <EditEventSubmitButton eventTitle>
               <FaPaperPlane onClick={e => editEventCall(e)} />
             </EditEventSubmitButton>
-            <EditEventDuration>
-              <EditEventSetDuration
-                type="range"
-                step="0.25"
-                min="0.25"
-                max="7.5"
-                value={eventDuration}
-                onChange={e => setEventDuration(parseFloat(e.target.value))}
-              />
-              {eventDuration}
-              <EventDurationStep />
-            </EditEventDuration>
           </EditEventForm>
           {!props.event.task && <TaskPicker />}
           {!props.event.task && <SearchTask />}

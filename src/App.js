@@ -18,9 +18,7 @@ import Clock from "./pages/Clock/Clock";
 // Components
 import MainMenu from "./components/MainMenu/MainMenu";
 import Nav from "./components/Nav/Nav";
-import FloatingClock from "./components/FloatingClock/FloatingClock";
-import FloatingEvent from "./components/FloatingEvent/FloatingEvent";
-import Overlay from "./components/Overlay/Overlay";
+import NavSliding from "./components/NavSliding/NavSliding";
 import Login from "./components/Login/Login";
 import { Background } from "./components/Login/Login.styles";
 
@@ -61,10 +59,10 @@ const App = () => {
   if (loggedInStatus) {
     return (
       <>
-        <MainMenu user={user}></MainMenu>
         <Nav />
         <Switch>
           <StoreProvider store={Store}>
+            <MainMenu user={user}></MainMenu>
             <Route
               exact
               path="/"
@@ -81,12 +79,10 @@ const App = () => {
             <Route exact path="/days" component={Days} />
             <Route exact path="/days/:dayId" component={Day} />
             <Route exact path="/clock" component={Clock} />
-            <Overlay test1={"test1"} />
-            <FloatingEvent />
+            <NavSliding />
           </StoreProvider>
           {/* <Route component={Error404} /> Not working */}
         </Switch>
-        <FloatingClock />
       </>
     );
   }

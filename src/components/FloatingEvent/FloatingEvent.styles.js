@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { primary, dark, shadow } from "../../constants/colors";
 
 export const FloatingEventStyle = styled.aside`
+  z-index: 1;
   width: 40px;
   height: 40px;
   position: fixed;

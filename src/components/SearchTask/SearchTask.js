@@ -27,15 +27,15 @@ const SearchTask = () => {
   // Iterate over the tasks array and and check each of the values against the keyword
   let result = [];
   if (keyword.length > 2) {
-    tasks.forEach((item, i) => {
+    tasks.forEach((task, i) => {
       let obj = {};
 
-      for (const key in item) {
-        if (item.hasOwnProperty(key)) {
-          if (regex.test(item[key])) {
-            obj._id = item._id;
-            obj.title = item.title;
-            obj[key] = item[key];
+      for (const key in task) {
+        if (task.hasOwnProperty(key)) {
+          if (regex.test(task[key])) {
+            obj._id = task._id;
+            obj.title = task.title;
+            obj[key] = task[key];
           }
         }
       }

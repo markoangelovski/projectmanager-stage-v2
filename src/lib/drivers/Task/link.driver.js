@@ -1,10 +1,10 @@
 const {
-  pmBackend: { api, apiversion }
+  "pmspa-api": { api, apiVersion }
 } = require(`../../../config/${process.env.API_CONFIG}`);
 
 const submitLinkCall = (task, payload) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/links/${task}`, {
+    fetch(`${api}/${apiVersion}/links/${task}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -21,7 +21,7 @@ const submitLinkCall = (task, payload) => {
 
 const editLinkCall = (linkId, payload) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/links/${linkId}/?link=${payload}`, {
+    fetch(`${api}/${apiVersion}/links/${linkId}/?link=${payload}`, {
       method: "PATCH",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
@@ -34,7 +34,7 @@ const editLinkCall = (linkId, payload) => {
 
 const deleteLinkCall = (taskId, linkId) => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiversion}/links/${taskId}?linkId=${linkId}`, {
+    fetch(`${api}/${apiVersion}/links/${taskId}?linkId=${linkId}`, {
       method: "DELETE",
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
