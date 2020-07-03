@@ -6,7 +6,7 @@ import {
   createEventCall,
   updateEventCall,
   deleteEventCall,
-  getSingleTaskEventsCall,
+  getSingleTaskEventsCall
 } from "../drivers/Event/event.driver";
 
 const setDayStart = (state, dayStart) => {
@@ -85,7 +85,11 @@ const getComputedDay = state => {
 
   const timeInDayMs = (state.dayStartHour + timeMarked) * 60 * 60 * 1000;
   const tempTime = moment.duration(timeInDayMs);
-  var timeInDay = tempTime.hours() + ":" + tempTime.minutes();
+  var hours = tempTime.hours();
+  var minutes = tempTime.minutes();
+  var timeInDay = `${hours < 10 ? "0" + hours : hours}:${
+    minutes < 10 ? "0" + minutes : minutes
+  }`;
 
   return [totalEvents, totalBooked, timeMarked, timeRemaining, timeInDay];
 };
@@ -223,5 +227,5 @@ export {
   setInitialDayValues,
   getSingleTaskEvents,
   setSingleTaskEvents,
-  reFetchEvents,
+  reFetchEvents
 };
