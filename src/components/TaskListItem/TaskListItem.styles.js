@@ -5,7 +5,10 @@ import { primary } from "../../constants/colors";
 export const TaskBody = styled.div`
   background: ${primary};
   padding: 5px 10px;
-  display: grid;
+  display: ${props =>
+    props.column.toLowerCase().replace(" ", "_") === localStorage.tasksMenu
+      ? "grid"
+      : "none"};
   grid-template-rows: auto 1fr auto;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;

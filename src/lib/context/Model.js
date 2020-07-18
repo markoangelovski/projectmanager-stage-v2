@@ -1,13 +1,24 @@
 import { action, thunk, createStore, computed } from "easy-peasy";
 import moment from "moment";
 
-import { getProjects, setProjects } from "../utils/projects.actions";
+import {
+  getSingleProject,
+  getProjects,
+  setProjects,
+  setHasMoreProjects,
+  setProjectsSkip
+} from "../utils/projects.actions";
 import {
   getTasks,
   setTasks,
+  setHasMoreTasks,
+  setTasksSkip,
   setSelectedTask,
+  getTasksByProject,
+  getSingleTaskNotes,
+  setSingleTaskNotes,
   getNotes,
-  setNotes
+  setAllNotes
 } from "../utils/tasks.actions";
 import {
   setDayStart,
@@ -34,7 +45,12 @@ import {
 
 const Store = createStore({
   projects: [],
+  hasMoreProjects: true,
+  projectsSkip: 0,
   tasks: [],
+  hasMoreTasks: true,
+  tasksSkip: 0,
+  singleTaskNotes: [],
   notes: [],
   singleTaskEvents: [],
   selectedTask: "",
@@ -49,9 +65,18 @@ const Store = createStore({
   fetching: false,
   overlay: false,
   // Project Thunks
-  getProjects: thunk(actions => getProjects(actions)),
+  getSingleProject: thunk((actions, payload) =>
+    getSingleProject(actions, payload)
+  ),
+  getProjects: thunk((actions, skip) => getProjects(actions, skip)),
   // Task Thunks
-  getTasks: thunk(actions => getTasks(actions)),
+  getTasks: thunk((actions, skip) => getTasks(actions, skip)),
+  getTasksByProject: thunk((actions, payload) =>
+    getTasksByProject(actions, payload)
+  ),
+  getSingleTaskNotes: thunk((actions, payload) =>
+    getSingleTaskNotes(actions, payload)
+  ),
   getNotes: thunk(actions => getNotes(actions)),
   // Days Thunks
   getDays: thunk((actions, payload) => getDays(actions, payload)),
@@ -71,12 +96,21 @@ const Store = createStore({
   getComputedDay: computed(state => getComputedDay(state)),
   // Project Actions
   setProjects: action((state, projects) => setProjects(state, projects)),
+  setHasMoreProjects: action((state, stats) =>
+    setHasMoreProjects(state, stats)
+  ),
+  setProjectsSkip: action(state => setProjectsSkip(state)),
   // Task Actions
   setTasks: action((state, tasks) => setTasks(state, tasks)),
+  setHasMoreTasks: action((state, stats) => setHasMoreTasks(state, stats)),
+  setTasksSkip: action(state => setTasksSkip(state)),
   setSelectedTask: action((state, selectedTask) =>
     setSelectedTask(state, selectedTask)
   ),
-  setNotes: action((state, notes) => setNotes(state, notes)),
+  setSingleTaskNotes: action((state, notes) =>
+    setSingleTaskNotes(state, notes)
+  ),
+  setAllNotes: action((state, notes) => setAllNotes(state, notes)),
   // Days Actions
   setDayStart: action((state, dayStart) => setDayStart(state, dayStart)),
   setDayEnd: action((state, dayEnd) => setDayEnd(state, dayEnd)),

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
 import { FaFile } from "react-icons/fa";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import {
   ProjectsWrapper,
@@ -14,29 +15,44 @@ import ProjectsListItem from "../../components/ProjectsListItem/ProjectsListItem
 const Projects = props => {
   const [newProject, setNewProject] = useState(false);
 
-  const { projects, fetching } = useStoreState(state => state);
-  console.log("<Projects>", projects);
+  const {
+    projects,
+    /* fetching, */ hasMoreProjects,
+    projectsSkip
+  } = useStoreState(state => state);
+  console.log("<Projects>", projects.length);
 
-  const getProjects = useStoreActions(actions => actions.getProjects);
+  const { getProjects } = useStoreActions(actions => actions);
 
   useEffect(() => {
     if (projects.length === 0) getProjects();
     // eslint-disable-next-line
   }, []);
 
-  if (fetching) return <div>Loading projects...</div>;
+  const fetchData = () => {
+    getProjects(projectsSkip.toString());
+  };
+
+  // if (fetching) return <div>Loading projects...</div>;
 
   return (
-    <ProjectsWrapper>
+    <ProjectsWrapper id="project-list-wrapper">
       <ProjectMenu>
         <ProjectMenuItem>
           <FaFile onClick={() => setNewProject(true)} />
         </ProjectMenuItem>
         {newProject && <NewProject setNewProject={setNewProject} />}
       </ProjectMenu>
-      {projects.map(project => {
-        return <ProjectsListItem key={project._id} project={project} />;
-      })}
+      <InfiniteScroll
+        dataLength={projects.length}
+        next={fetchData}
+        hasMore={hasMoreProjects}
+        loader={<div>Loading projects...</div>}
+      >
+        {projects.map(project => (
+          <ProjectsListItem key={project._id} project={project} />
+        ))}
+      </InfiniteScroll>
     </ProjectsWrapper>
   );
 };

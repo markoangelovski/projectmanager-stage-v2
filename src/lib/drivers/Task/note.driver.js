@@ -2,6 +2,18 @@ const {
   "pmspa-api": { api, apiVersion }
 } = require(`../../../config/${process.env.REACT_APP_API_CONFIG}`);
 
+const getSingleTaskNotesCall = taskId => {
+  return new Promise((resolve, reject) => {
+    fetch(`${api}/${apiVersion}/notes?task=${taskId}`, {
+      // Credentials: include for sending the cookie from the browser to the backend
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+};
+
 const getNotesCall = () => {
   return new Promise((resolve, reject) => {
     fetch(`${api}/${apiVersion}/notes`, {
@@ -57,4 +69,10 @@ const deleteNoteCall = (taskId, noteId) => {
   });
 };
 
-export { getNotesCall, submitNoteCall, editNoteCall, deleteNoteCall };
+export {
+  getSingleTaskNotesCall,
+  getNotesCall,
+  submitNoteCall,
+  editNoteCall,
+  deleteNoteCall
+};

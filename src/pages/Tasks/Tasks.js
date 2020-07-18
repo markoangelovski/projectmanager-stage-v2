@@ -1,41 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useStoreState, useStoreActions } from "easy-peasy";
-import {
-  /* FaFile, */ FaHandRock,
-  FaHandPaper,
-  FaHandScissors
-} from "react-icons/fa";
+import { FaHandRock, FaHandPaper, FaHandScissors } from "react-icons/fa";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 import { TasksWrapper, TaskMenu, TaskMenuItem } from "./Tasks.styles";
 
-// import NewTask from "../../components/NewTask/NewTask";
 import TaskListItem from "../../components/TaskListItem/TaskListItem";
 
 const Tasks = ({ taskId }) => {
-  const { projects, tasks, fetching } = useStoreState(state => state);
-  const { getProjects } = useStoreActions(actions => actions);
-
-  // New task state
-  // const [newTask, setNewTask] = useState(false);
+  const {
+    projects,
+    tasks,
+    /* fetching, */ hasMoreTasks,
+    tasksSkip
+  } = useStoreState(state => state);
+  const { getProjects, getTasks } = useStoreActions(actions => actions);
 
   // Menu display state
   const [upcoming, setUpcoming] = useState(false);
   const [inProgress, setInProgress] = useState(false);
   const [completed, setCompleted] = useState(false);
-
-  const upcomingArr = [],
-    inProgressArr = [],
-    completedArr = [];
-
-  tasks.forEach(task => {
-    if (task.column === "Upcoming") {
-      upcomingArr.push(task);
-    } else if (task.column === "In Progress") {
-      inProgressArr.push(task);
-    } else if (task.column === "Completed") {
-      completedArr.push(task);
-    }
-  });
 
   console.log("<Tasks>", tasks.length);
 
@@ -74,7 +58,11 @@ const Tasks = ({ taskId }) => {
     }
   };
 
-  if (fetching) return <div>Loading tasks...</div>;
+  const fetchData = () => {
+    hasMoreTasks && getTasks(tasksSkip.toString());
+  };
+
+  // if (fetching) return <div>Loading tasks...</div>;
 
   return (
     <TasksWrapper>
@@ -83,10 +71,6 @@ const Tasks = ({ taskId }) => {
         inProgress={inProgress}
         completed={completed}
       >
-        {/* <TaskMenuItem>
-          <FaFile onClick={() => setNewTask(true)} />
-        </TaskMenuItem> */}
-        {/* {newTask && <NewTask setNewTask={setNewTask} />} */}
         <TaskMenuItem data-type="upcoming" onClick={e => selectMenu(e)}>
           <FaHandRock data-type="upcoming" />
         </TaskMenuItem>
@@ -97,18 +81,29 @@ const Tasks = ({ taskId }) => {
           <FaHandScissors data-type="completed" />
         </TaskMenuItem>
       </TaskMenu>
-      {upcoming &&
-        upcomingArr.map(task => (
-          <TaskListItem key={task._id} taskId={task._id} />
-        ))}
-      {inProgress &&
-        inProgressArr.map(task => (
-          <TaskListItem key={task._id} taskId={task._id} />
-        ))}
-      {completed &&
-        completedArr.map(task => (
-          <TaskListItem key={task._id} taskId={task._id} />
-        ))}
+      {tasks && (
+        <InfiniteScroll
+          dataLength={tasks.length}
+          next={fetchData}
+          hasMore={hasMoreTasks}
+          loader={<div>Loading tasks...</div>}
+          refreshFunction={fetchData}
+          pullDownToRefresh
+          pullDownToRefreshThreshold={50}
+          pullDownToRefreshContent={
+            <h3 style={{ textAlign: "center" }}>
+              &#8595; Pull down to refresh
+            </h3>
+          }
+          releaseToRefreshContent={
+            <h3 style={{ textAlign: "center" }}>&#8593; Release to refresh</h3>
+          }
+        >
+          {tasks.map(task => (
+            <TaskListItem key={task._id} taskId={task._id} />
+          ))}
+        </InfiniteScroll>
+      )}
     </TasksWrapper>
   );
 };

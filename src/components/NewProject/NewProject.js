@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useStoreActions, useStoreState } from "easy-peasy";
+import { useStoreActions } from "easy-peasy";
 import { FaPaperPlane } from "react-icons/fa";
 
 import {
@@ -28,7 +28,6 @@ const NewProject = ({ setNewProject }) => {
   // Error while creating new project
   const [projectError, setProjectError] = useState(false);
 
-  const { projects } = useStoreState(state => state);
   const { setProjects } = useStoreActions(actions => actions);
 
   const newProjectFoo = async e => {
@@ -71,7 +70,7 @@ const NewProject = ({ setNewProject }) => {
 
     // After successfull project creation, add project to state
     if (result.project) {
-      setProjects([...projects, result.project]);
+      setProjects([result.project]);
       setLoading(false);
       setNewProject(false);
     }

@@ -172,8 +172,7 @@ const getSingleTaskEvents = async (actions, payload) => {
   try {
     const res = await getSingleTaskEventsCall(payload);
     if (!res.error) actions.setSingleTaskEvents(res.events);
-    if (res.message === "No event entries found.")
-      actions.setSingleTaskEvents([]);
+    if (res.message === "ERR_NO_EVENTS_FOUND") actions.setSingleTaskEvents([]);
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();

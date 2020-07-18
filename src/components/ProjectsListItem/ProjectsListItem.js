@@ -27,7 +27,7 @@ const ProjectListItem = ({ project }) => {
           <ProjectDetail>{project.pl}</ProjectDetail>
           <ProjectTaskCount>
             <FaTasks />
-            {project.tasks.length}
+            {project.openTasksCount || 0} | {project.closedTasksCount || 0}
           </ProjectTaskCount>
         </ProjectDetailWrapper>
       </Link>

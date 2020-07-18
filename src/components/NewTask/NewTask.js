@@ -19,12 +19,12 @@ import { url } from "../../constants/regex";
 const NewTask = props => {
   const { setNewTask, project } = props;
 
-  const { tasks, projects, dayEnd } = useStoreState(state => state);
-  const { setTasks, setProjects } = useStoreActions(actions => actions);
+  const { tasks, dayEnd } = useStoreState(state => state);
+  const { getSingleProject, setTasks } = useStoreActions(actions => actions);
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [pl, setPl] = useState(project.pl);
+  const [pl, setPl] = useState(project.pl || "");
   const [kanboard, setKanboard] = useState("");
   const [nas, setNas] = useState("");
   const [column, setColumn] = useState("Upcoming");
@@ -57,27 +57,29 @@ const NewTask = props => {
       dueDate
     };
     console.log("payload", payload);
-    const result = await createTaskCall(payload);
 
-    // If there are errors with creating a new task, display error msg
-    if (result.error) {
+    try {
+      const result = await createTaskCall(payload);
+
+      // After successfull task creation, add task to state
+      if (result.task) {
+        setTasks([...tasks, result.task]);
+
+        // Re-fetch the single project to get updated task count
+        getSingleProject(project._id);
+
+        setLoading(false);
+        setNewTask(false);
+      }
+
+      // If there are errors with creating a new task, display error msg
+      if (result.error) {
+        setTaskError(true);
+        setLoading(false);
+      }
+    } catch (error) {
       setTaskError(true);
       setLoading(false);
-    }
-
-    // After successfull task creation, add task to state
-    if (result.task) {
-      setTasks([...tasks, result.task]);
-
-      // Update project in state
-      project.tasks = [...project.tasks, result.task._id];
-      const filteredProjects = projects.filter(
-        projectItem => projectItem._id !== project._id
-      );
-      setProjects([...filteredProjects, project]);
-
-      setLoading(false);
-      setNewTask(false);
     }
   };
 

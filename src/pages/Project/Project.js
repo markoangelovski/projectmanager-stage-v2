@@ -14,20 +14,47 @@ import TaskListItem from "../../components/TaskListItem/TaskListItem";
 import NewTask from "../../components/NewTask/NewTask";
 
 const Project = props => {
-  const { projects, fetching } = useStoreState(state => state);
+  const { projects, tasks, fetching } = useStoreState(state => state);
 
-  const getProjects = useStoreActions(actions => actions.getProjects);
+  const { getProjects, getTasksByProject } = useStoreActions(
+    actions => actions
+  );
 
   const [info, setInfo] = useState(false);
-  const [tasks, setTasks] = useState(false);
+  const [taskMenu, setTaskMenu] = useState(false);
   const [json, setJson] = useState(false);
+
+  const [tasksFetched, setTasksFetched] = useState(false);
 
   const [newTask, setNewTask] = useState(false);
 
   const selectedProject = projects.find(
     project => props.match.params.projectId === project._id
   );
-  console.log("<Project>", selectedProject);
+  console.log(
+    "<Project>",
+    selectedProject && selectedProject.title,
+    selectedProject && selectedProject._id
+  );
+
+  const projectTasks = tasks.filter(
+    task => task.project === selectedProject._id
+  );
+
+  // Does not fetch tasks if they are already fetched
+  const taskCountMatch =
+    selectedProject &&
+    selectedProject.openTasksCount + selectedProject.closedTasksCount >
+      projectTasks.length;
+
+  const fetchTasks = () => {
+    setTasksFetched(true);
+
+    selectedProject &&
+      !tasksFetched &&
+      (selectedProject.openTasksCount || selectedProject.closedTasksCount) &&
+      getTasksByProject(selectedProject._id);
+  };
 
   useEffect(() => {
     if (projects.length === 0) getProjects();
@@ -36,10 +63,18 @@ const Project = props => {
     if (localStorage.projectMenu === "info") {
       setInfo(true);
     } else if (localStorage.projectMenu === "tasks") {
-      setTasks(true);
+      setTaskMenu(true);
     } else if (localStorage.projectMenu === "json") {
       setJson(true);
     }
+
+    // Fetch Tasks on initial page load if one of them is selected
+    selectedProject &&
+      !tasksFetched &&
+      localStorage.projectMenu === "tasks" &&
+      taskCountMatch &&
+      (selectedProject.openTasksCount || selectedProject.closedTasksCount) &&
+      fetchTasks();
     // eslint-disable-next-line
   }, []);
 
@@ -48,17 +83,17 @@ const Project = props => {
     if (type === "info") {
       localStorage.projectMenu = "info";
       setInfo(true);
-      setTasks(false);
+      setTaskMenu(false);
       setJson(false);
     } else if (type === "tasks") {
       localStorage.projectMenu = "tasks";
       setInfo(false);
-      setTasks(true);
+      setTaskMenu(true);
       setJson(false);
     } else if (type === "json") {
       localStorage.projectMenu = "json";
       setInfo(false);
-      setTasks(false);
+      setTaskMenu(false);
       setJson(true);
     }
   };
@@ -72,7 +107,13 @@ const Project = props => {
           <ProjectMenuItem data-type="info" onClick={e => selectMenu(e)}>
             <FaInfo data-type="info" />
           </ProjectMenuItem>
-          <ProjectMenuItem data-type="tasks" onClick={e => selectMenu(e)}>
+          <ProjectMenuItem
+            data-type="tasks"
+            onClick={e => {
+              selectMenu(e);
+              fetchTasks();
+            }}
+          >
             <FaTasks data-type="tasks" />
           </ProjectMenuItem>
           <ProjectMenuItem data-type="json" onClick={e => selectMenu(e)}>
@@ -84,9 +125,9 @@ const Project = props => {
         </ProjectMenuItem>
       </ProjectMenu>
       {info && <ProjectDetailsItem project={selectedProject} />}
-      {tasks &&
-        selectedProject.tasks.map(task => (
-          <TaskListItem key={task} taskId={task} />
+      {taskMenu &&
+        projectTasks.map(task => (
+          <TaskListItem key={task._id} taskId={task._id} />
         ))}
       {json && (
         <ProjectSource>

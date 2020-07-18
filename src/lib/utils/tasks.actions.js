@@ -1,11 +1,21 @@
-import { getTasksCall } from "../drivers/Task/task.driver";
-import { getNotesCall } from "../drivers/Task/note.driver";
+import {
+  getTasksCall,
+  getTasksByProjectCall
+} from "../drivers/Task/task.driver";
+import {
+  getNotesCall,
+  getSingleTaskNotesCall
+} from "../drivers/Task/note.driver";
 
-const getTasks = async actions => {
+const getTasks = async (actions, skip) => {
   actions.toggleFetching();
   try {
-    const { tasks } = await getTasksCall();
-    actions.setTasks(tasks);
+    const res = await getTasksCall(skip);
+    if (!res.error) {
+      actions.setTasks(res.tasks);
+      actions.setHasMoreTasks(res.stats);
+      actions.setTasksSkip();
+    }
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -14,18 +24,29 @@ const getTasks = async actions => {
 };
 
 const setTasks = (state, tasks) => {
-  state.tasks = tasks;
+  const arr1 = state.tasks.map(task => [task._id, task]);
+  const arr2 = tasks.map(task => [task._id, task]);
+  const obj = Object.fromEntries([...arr1, ...arr2]);
+  state.tasks = Object.values(obj);
+};
+
+const setHasMoreTasks = (state, stats) => {
+  if (!stats.remaining) state.hasMoreTasks = false;
+};
+
+const setTasksSkip = state => {
+  state.tasksSkip += 10;
 };
 
 const setSelectedTask = (state, selectedTask) => {
   state.selectedTask = selectedTask;
 };
 
-const getNotes = async actions => {
+const getTasksByProject = async (actions, projectId) => {
   actions.toggleFetching();
   try {
-    const { notes } = await getNotesCall();
-    actions.setNotes(notes);
+    const res = await getTasksByProjectCall(projectId);
+    if (!res.error) actions.setTasks(res.tasks);
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -33,8 +54,50 @@ const getNotes = async actions => {
   }
 };
 
-const setNotes = (state, notes) => {
-  state.notes = notes;
+const getSingleTaskNotes = async (actions, taskId) => {
+  actions.toggleFetching();
+  try {
+    const res = await getSingleTaskNotesCall(taskId);
+    if (!res.error) actions.setSingleTaskNotes(res.notes);
+    actions.toggleFetching();
+  } catch (error) {
+    actions.toggleFetching();
+    console.warn(error);
+  }
 };
 
-export { getTasks, setTasks, setSelectedTask, getNotes, setNotes };
+const setSingleTaskNotes = (state, notes) => {
+  state.singleTaskNotes = notes;
+};
+
+const getNotes = async actions => {
+  actions.toggleFetching();
+  try {
+    const res = await getNotesCall();
+    if (!res.error) actions.setAllNotes(res.notes);
+    actions.toggleFetching();
+  } catch (error) {
+    actions.toggleFetching();
+    console.warn(error);
+  }
+};
+
+const setAllNotes = (state, notes) => {
+  const arr1 = state.notes.map(note => [note._id, note]);
+  const arr2 = notes.map(note => [note._id, note]);
+  const obj = Object.fromEntries([...arr1, ...arr2]);
+  state.notes = Object.values(obj);
+};
+
+export {
+  getTasks,
+  getTasksByProject,
+  setTasks,
+  setHasMoreTasks,
+  setTasksSkip,
+  setSelectedTask,
+  getSingleTaskNotes,
+  setSingleTaskNotes,
+  getNotes,
+  setAllNotes
+};

@@ -5,7 +5,6 @@ import {
   FaBan,
   FaCheck,
   FaStickyNote,
-  FaLink,
   FaRegClock
 } from "react-icons/fa";
 
@@ -57,9 +56,8 @@ const TaskListItem = ({ task }) => {
             <div>
               {task.done ? <FaCheck /> : <FaBan />}
               <FaStickyNote />
-              {task.notes.length} <FaLink />
-              {task.links.length} <FaRegClock />
-              {task.events.length}
+              {task.notesCount || 0} <FaRegClock />
+              {task.eventsCount || 0}
             </div>
           </TaskDetailWrapper>
         </TaskDetailCount>

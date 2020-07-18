@@ -2,9 +2,21 @@ const {
   "pmspa-api": { api, apiVersion }
 } = require(`../../../config/${process.env.REACT_APP_API_CONFIG}`);
 
-const getProjectsCall = () => {
+const getSingleProjectCall = projectId => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiVersion}/projects`, {
+    fetch(`${api}/${apiVersion}/projects/${projectId}`, {
+      // Credentials: include for sending the cookie from the browser to the backend
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+};
+
+const getProjectsCall = (skip = 0) => {
+  return new Promise((resolve, reject) => {
+    fetch(`${api}/${apiVersion}/projects?skip=${skip}`, {
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
     })
@@ -58,6 +70,7 @@ const deleteProjectCall = (taskId, linkId) => {
 };
 
 export {
+  getSingleProjectCall,
   getProjectsCall,
   submitProjectCall,
   editProjectCall,
