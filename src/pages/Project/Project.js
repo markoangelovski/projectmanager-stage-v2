@@ -37,9 +37,9 @@ const Project = props => {
     selectedProject && selectedProject._id
   );
 
-  const projectTasks = tasks.filter(
-    task => task.project === selectedProject._id
-  );
+  const projectTasks =
+    selectedProject &&
+    tasks.filter(task => task.project === selectedProject._id);
 
   // Does not fetch tasks if they are already fetched
   const taskCountMatch =
