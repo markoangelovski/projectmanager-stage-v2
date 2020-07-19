@@ -19,9 +19,8 @@ export const TaskMenu = styled.div`
     div:nth-child(${props => {
         if (props.info) return 1;
         if (props.notesMenu) return 2;
-        if (props.links) return 3;
-        if (props.events) return 4;
-        if (props.json) return 5;
+        if (props.eventsMenu) return 3;
+        if (props.json) return 4;
       }})
     > svg {
     color: black;

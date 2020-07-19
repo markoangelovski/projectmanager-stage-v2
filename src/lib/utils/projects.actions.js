@@ -1,10 +1,29 @@
-import { getProjectsCall } from "../drivers/Project/project.driver";
+import {
+  getSingleProjectCall,
+  getProjectsCall
+} from "../drivers/Project/project.driver";
 
-const getProjects = async actions => {
+const getSingleProject = async (actions, projectId) => {
   actions.toggleFetching();
   try {
-    const { projects } = await getProjectsCall();
-    actions.setProjects(projects);
+    const res = await getSingleProjectCall(projectId);
+    if (!res.error) actions.setProjects([res.project]);
+    actions.toggleFetching();
+  } catch (error) {
+    actions.toggleFetching();
+    console.warn(error);
+  }
+};
+
+const getProjects = async (actions, skip) => {
+  actions.toggleFetching();
+  try {
+    const res = await getProjectsCall(skip);
+    if (!res.error) {
+      actions.setProjects(res.projects);
+      actions.setHasMoreProjects(res.stats);
+      actions.setProjectsSkip();
+    }
     actions.toggleFetching();
   } catch (error) {
     actions.toggleFetching();
@@ -13,7 +32,24 @@ const getProjects = async actions => {
 };
 
 const setProjects = (state, projects) => {
-  state.projects = projects;
+  const arr1 = state.projects.map(project => [project._id, project]);
+  const arr2 = projects.map(project => [project._id, project]);
+  const obj = Object.fromEntries([...arr1, ...arr2]);
+  state.projects = Object.values(obj);
 };
 
-export { getProjects, setProjects };
+const setHasMoreProjects = (state, stats) => {
+  if (!stats.remaining) state.hasMoreProjects = false;
+};
+
+const setProjectsSkip = state => {
+  state.projectsSkip += 10;
+};
+
+export {
+  getSingleProject,
+  getProjects,
+  setProjects,
+  setHasMoreProjects,
+  setProjectsSkip
+};

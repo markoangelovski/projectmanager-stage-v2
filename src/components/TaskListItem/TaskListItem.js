@@ -7,7 +7,6 @@ import {
   FaCheck,
   FaBan,
   FaStickyNote,
-  FaLink,
   FaRegClock
 } from "react-icons/fa";
 
@@ -21,7 +20,7 @@ import {
   TaskProjectLink
 } from "./TaskListItem.styles";
 
-const TaskListItem = ({ taskId }) => {
+const TaskListItem = ({ taskId, page }) => {
   const { projects, tasks } = useStoreState(state => state);
 
   const selectedTask = tasks.find(task => task._id === taskId);
@@ -29,13 +28,14 @@ const TaskListItem = ({ taskId }) => {
     selectedTask &&
     projects.find(project => project._id === selectedTask.project);
 
-  const taskURL = `/projects/${selectedProject &&
-    selectedProject._id}/tasks/${taskId}`;
+  const taskURL = `/projects/${
+    selectedProject && selectedProject._id
+  }/tasks/${taskId}`;
 
   const projectURL = `/projects/${selectedProject && selectedProject._id}`;
 
   return selectedTask ? (
-    <TaskBody>
+    <TaskBody column={selectedTask.column} page={page}>
       <Link to={taskURL}>
         <TaskDetailWrapper>
           <TaskTitle>{selectedTask.title}</TaskTitle>
@@ -63,11 +63,9 @@ const TaskListItem = ({ taskId }) => {
         </TaskIcon>
         <TaskIcon>
           <FaStickyNote />
-          {selectedTask.notes.length}
-          <FaLink />
-          {selectedTask.links.length}
+          {selectedTask.notesCount || 0}
           <FaRegClock />
-          {selectedTask.events.length}
+          {selectedTask.eventsCount || 0}
         </TaskIcon>
       </TaskDetailWrapper>
     </TaskBody>

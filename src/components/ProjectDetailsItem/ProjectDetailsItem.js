@@ -62,7 +62,7 @@ const ProjectListItem = ({ project }) => {
           <div>
             {project.done ? <FaCheck /> : <FaBan />}
             <FaTasks />
-            {project.tasks.length}
+            {project.openTasksCount || 0} | {project.closedTasksCount || 0}
           </div>
         </ProjectDetailWrapper>
       </ProjectTaskCount>

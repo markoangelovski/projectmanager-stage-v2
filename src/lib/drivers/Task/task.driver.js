@@ -14,9 +14,21 @@ const getSingleTaskCall = taskId => {
   });
 };
 
-const getTasksCall = () => {
+const getTasksByProjectCall = projectId => {
   return new Promise((resolve, reject) => {
-    fetch(`${api}/${apiVersion}/tasks`, {
+    fetch(`${api}/${apiVersion}/tasks?project=${projectId}`, {
+      // Credentials: include for sending the cookie from the browser to the backend
+      credentials: "include"
+    })
+      .then(res => res.json())
+      .then(json => resolve(json))
+      .catch(err => reject(err));
+  });
+};
+
+const getTasksCall = (skip = 0) => {
+  return new Promise((resolve, reject) => {
+    fetch(`${api}/${apiVersion}/tasks?skip=${skip}`, {
       // Credentials: include for sending the cookie from the browser to the backend
       credentials: "include"
     })
@@ -75,6 +87,7 @@ const deleteTaskCall = taskId => {
 
 export {
   getSingleTaskCall,
+  getTasksByProjectCall,
   getTasksCall,
   createTaskCall,
   updateTaskCall,

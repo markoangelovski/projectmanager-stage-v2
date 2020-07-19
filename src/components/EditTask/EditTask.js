@@ -22,7 +22,7 @@ const EditTask = props => {
   const { task, setEditTask } = props;
 
   const { tasks } = useStoreState(state => state);
-  const { setTasks } = useStoreActions(actions => actions);
+  const { setTasks, getSingleProject } = useStoreActions(actions => actions);
 
   const [title, setTitle] = useState(task.title);
   const [description, setDescription] = useState(task.description);
@@ -54,42 +54,40 @@ const EditTask = props => {
     let payload = [
       {
         propName: "title",
-        value: title
+        propValue: title
       },
       {
         propName: "description",
-        value: description
+        propValue: description
       },
       {
         propName: "pl",
-        value: pl
+        propValue: pl
       },
       {
         propName: "kanboard",
-        value: kanboard
+        propValue: kanboard
       },
       {
         propName: "nas",
-        value: nas
+        propValue: nas
       },
       {
         propName: "column",
-        value: column
+        propValue: column
       },
       {
         propName: "dueDate",
-        value: new Date(dueDate).getTime()
+        propValue: new Date(dueDate).getTime()
       },
       {
         propName: "done",
-        value: done
+        propValue: String(done)
       }
     ];
     // Remove undefinded, null or empty values from payload
     payload = payload.filter(
-      field =>
-        (typeof field.value === "string" && field.value.length) ||
-        typeof field.value == "boolean"
+      field => typeof field.propValue === "string" && field.propValue.length
     );
 
     console.log("payload", payload);
@@ -106,6 +104,8 @@ const EditTask = props => {
       // Update task in state
       const filteredTasks = tasks.filter(taskItem => taskItem._id !== task._id);
       setTasks([...filteredTasks, result.task]);
+      // Re-fetch the single project to get updated task count
+      getSingleProject(task.project);
 
       setLoading(false);
       setEditTask(false);
