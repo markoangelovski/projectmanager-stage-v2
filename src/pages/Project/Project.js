@@ -127,7 +127,7 @@ const Project = props => {
       {info && <ProjectDetailsItem project={selectedProject} />}
       {taskMenu &&
         projectTasks.map(task => (
-          <TaskListItem key={task._id} taskId={task._id} />
+          <TaskListItem key={task._id} taskId={task._id} page="project" />
         ))}
       {json && (
         <ProjectSource>

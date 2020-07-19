@@ -20,7 +20,7 @@ import {
   TaskProjectLink
 } from "./TaskListItem.styles";
 
-const TaskListItem = ({ taskId }) => {
+const TaskListItem = ({ taskId, page }) => {
   const { projects, tasks } = useStoreState(state => state);
 
   const selectedTask = tasks.find(task => task._id === taskId);
@@ -35,7 +35,7 @@ const TaskListItem = ({ taskId }) => {
   const projectURL = `/projects/${selectedProject && selectedProject._id}`;
 
   return selectedTask ? (
-    <TaskBody column={selectedTask.column}>
+    <TaskBody column={selectedTask.column} page={page}>
       <Link to={taskURL}>
         <TaskDetailWrapper>
           <TaskTitle>{selectedTask.title}</TaskTitle>

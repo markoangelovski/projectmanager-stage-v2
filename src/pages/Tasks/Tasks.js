@@ -100,7 +100,7 @@ const Tasks = ({ taskId }) => {
           }
         >
           {tasks.map(task => (
-            <TaskListItem key={task._id} taskId={task._id} />
+            <TaskListItem key={task._id} taskId={task._id} page="tasks" />
           ))}
         </InfiniteScroll>
       )}

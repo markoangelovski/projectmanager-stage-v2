@@ -5,10 +5,16 @@ import { primary } from "../../constants/colors";
 export const TaskBody = styled.div`
   background: ${primary};
   padding: 5px 10px;
-  display: ${props =>
-    props.column.toLowerCase().replace(" ", "_") === localStorage.tasksMenu
-      ? "grid"
-      : "none"};
+  display: ${props => {
+    const taskColumn = props.column.toLowerCase().replace(" ", "_");
+    const ls = localStorage.tasksMenu;
+    if (props.page === "project") return "grid";
+    if (props.page === "tasks" && taskColumn === ls) {
+      return "grid";
+    } else {
+      return "none";
+    }
+  }};
   grid-template-rows: auto 1fr auto;
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
