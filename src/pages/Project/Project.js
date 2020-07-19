@@ -102,7 +102,7 @@ const Project = props => {
 
   return selectedProject ? (
     <ProjectWrapper>
-      <ProjectMenu info={info} tasks={tasks} json={json}>
+      <ProjectMenu info={info} tasks={taskMenu} json={json}>
         <div>
           <ProjectMenuItem data-type="info" onClick={e => selectMenu(e)}>
             <FaInfo data-type="info" />
