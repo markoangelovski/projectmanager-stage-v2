@@ -56,7 +56,7 @@ const SearchTask = () => {
           taskRef.current.style.display = "inherit";
         }}
       />
-      <span ref={taskRef}>
+      <span style={{ overflow: "auto", maxHeight: "33vh" }} ref={taskRef}>
         {result.map((res, i) => (
           <SearchTaskOption
             key={i}
