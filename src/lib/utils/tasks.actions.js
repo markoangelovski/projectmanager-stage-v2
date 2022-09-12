@@ -35,7 +35,7 @@ const setHasMoreTasks = (state, stats) => {
 };
 
 const setTasksSkip = state => {
-  state.tasksSkip += 10;
+  state.tasksSkip += 50;
 };
 
 const setSelectedTask = (state, selectedTask) => {

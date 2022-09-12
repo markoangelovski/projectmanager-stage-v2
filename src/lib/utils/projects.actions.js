@@ -43,7 +43,7 @@ const setHasMoreProjects = (state, stats) => {
 };
 
 const setProjectsSkip = state => {
-  state.projectsSkip += 10;
+  state.projectsSkip += 50;
 };
 
 export {
