@@ -1,6 +1,7 @@
 {
   "pmspa-api": {
-    "api": "https://pmspa-api-stg.herokuapp.com",
+    "api": "https://project-manager-legacy-api.azurewebsites.net",
+    "api-legacy": "https://pmspa-api-stg.herokuapp.com",
     "apiVersion": "v1",
     "apiVersionBeta": "v1.1"
   },
