@@ -21,7 +21,7 @@
     "styled-components": "^5.1.1"
   },
   "scripts": {
-    "start": "PORT=8080 REACT_APP_API_CONFIG=dev react-scripts start",
+    "start": "PORT=8080 REACT_APP_API_CONFIG=dev react-scripts --openssl-legacy-provider start",
     "build:stage": "REACT_APP_API_CONFIG=stage react-scripts build",
     "deploy:stage": "git push -u origin-staging staging && npm run build:stage && node src/deploy/stage.js",
     "build:prod": "REACT_APP_API_CONFIG=prod react-scripts build",
