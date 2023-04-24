@@ -22,9 +22,9 @@
   },
   "scripts": {
     "start": "PORT=8080 REACT_APP_API_CONFIG=dev react-scripts --openssl-legacy-provider start",
-    "build:stage": "REACT_APP_API_CONFIG=stage react-scripts build",
+    "build:stage": "REACT_APP_API_CONFIG=stage react-scripts --openssl-legacy-provider build",
     "deploy:stage": "git push -u origin-staging staging && npm run build:stage && node src/deploy/stage.js",
-    "build:prod": "REACT_APP_API_CONFIG=prod react-scripts build",
+    "build:prod": "REACT_APP_API_CONFIG=prod react-scripts --openssl-legacy-provider build",
     "deploy:prod": "git push -u origin-production master && npm run build:prod && node src/deploy/prod.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
