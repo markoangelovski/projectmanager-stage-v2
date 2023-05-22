@@ -1,6 +1,7 @@
 {
   "pmspa-api": {
-    "api": "https://pmspa-api.up.railway.app",
+    "api": "https://pmspa-api.azurewebsites.net",
+    "api_legacy3": "https://pmspa-api.up.railway.app",
     "api-legacy2": "https://projectmanager-prod-projects-fazagc.mo1.mogenius.io",
     "api-main": "https://project-manager-legacy-api.azurewebsites.net",
     "api-legacy": "https://pmspa-api.herokuapp.com",
